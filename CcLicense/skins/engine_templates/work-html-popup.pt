@@ -1,0 +1,33 @@
+<html i18n:domain="icommons">
+  <head>
+        <title>HTML Popup | Creative Commons</title>
+        <link rel="stylesheet" type="text/css" href="/includes/popup.css">
+  </head>
+  <body tal:define="license here/license/issue">
+
+<div class="bodybox">
+<div class="bodyfloat">
+
+<p i18n:translate="license.html_display"><%=[ccommons::istr $lang license.html_display]%></p>
+<form action="">
+<textarea cols="30" rows="8" name="html" 
+   style="width:90%;height:150px;"
+   tal:content="license/rdf">@html;noquote@</textarea>
+<p><input type="button" onclick="form.html.focus();form.html.select()" value="Highlight Text to Copy" name="grab" /></p>
+</form>
+
+<p i18n:translate="license.html_directions"><%=[ccommons::istr $lang license.html_directions]%></p>
+
+<form action="work-email" method="post">
+<p><span tal:omit-tag="" i18n:translate="license.html_email"/>
+<input type="text" name="to_email" value="" /> 
+<input type="submit" value="<%=[ccommons::istr $lang util.Send]%>" 
+   i18n:attributes="value util.Send"/>
+</p></form>
+
+
+<div align="center"><a href="javascript:window.close();" i18n:translate="util.Close_window"><%=[ccommons::istr $lang util.Close_window]%></a></div>
+</div></div>
+</body>
+</html>
+

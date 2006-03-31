@@ -1,0 +1,133 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/engine_template/macros/master"
+      i18n:domain="icommons">
+<head>
+    <metal:hslot fill-slot="head_slot">
+<base href="/license/" />
+	<title i18n:translate="license.Choose_License">Choose a License | Creative Commons</title>
+	      
+    <script src="http://creativecommons.org/includes/icommons.js" type="text/javascript"></script>
+ 
+    </metal:hslot>
+
+    <metal:jslot fill-slot="javascript_slot">        
+<script>
+function toggle(id)
+{
+    var elm = document.getElementById(id);
+        var sp = document.getElementById("moreinfo");
+    if (!elm || elm.length == 0) return;
+    var d = elm.style.display;
+        //alert(d);
+    if (d && (d != "none" || d == ""))
+    {
+        elm.style.display = "none";
+                sp.innerHTML = "Click to include more information about your work.";
+    } else
+    {
+        elm.style.display = "block";
+                sp.innerHTML = "Hide these fields (All fields are optional)";
+    }
+}
+</script>
+</metal:jslot>
+        
+
+</head>
+<body>
+
+<metal:bcrumbs fill-slot="breadcrumbs">
+<span style="float:right;"><img src="http://creativecommons.org/images/publish-foreground.gif" width="137" height="88" alt="Publish icon" /></span><p class="breadcrumb"><a href="http://creativecommons.org/">Home</a>: <a href="http://creativecommons.org/find/">Find</a> <a href="http://creativecommons.org/license/" class="crumbdown">Publish</a></p>
+
+<a href="http://creativecommons.org/license/"><img src="http://creativecommons.org/images/publish-logo.gif" alt="Publish" width="159" height="35" border="0" style="padding-left:20px;" /></a>
+
+</metal:bcrumbs>
+
+
+<metal:left fill-slot="left_content">
+
+        <p class="currentstep"> <span i18n:translate="util.step">step</span> 1<br />
+        <span i18n:translate="license.choose_license">choose license</span></p>
+
+        <p class="step">
+  <span i18n:translate="util.step">step</span> 2<br />
+  <span i18n:translate="license.review_choice">review choice</span>
+        </p>
+
+        <p class="step">
+<span i18n:translate="util.step">step</span> 3<br />
+<span i18n:translate="license.mark_content">mark content</span>
+        </p>
+
+        <p class="step">
+<span i18n:translate="util.step">step</span>  4<br />
+<span i18n:translate="license.publicize">publicize</span> </p>
+
+</metal:left>
+
+
+<metal:right fill-slot="right_content">
+
+<h1 i18n:translate="license.sampling_title">Choose Your Sampling License Options</h1>
+<div tal:omit-tag="" i18n:translate="license.sampling_explain" />
+
+<div class="licensebox">
+			<form action="results-one" method="post">
+<table border="0" cellspacing="8" cellpadding="0">
+<tr>
+	<td width="64"><img src="http://creativecommons.org/icon/sampling/deed.gif" align="left" alt="Sampling" /></td>
+	<td><input type="radio" name="license_code" value="sampling" id="sampling"> <label for="sampling" i18n:translate="license.sampling_a_sampling"><strong>Sampling</strong>: People can take and transform <strong>pieces</strong> of your work for any purpose other than advertising, which is prohibited. Copying and distribution of the <strong>entire work</strong> is also prohibited.</label></td>
+</tr>
+<tr>
+	<td><img src="http://creativecommons.org/icon/sampling+/deed.gif" align="left" alt="Sampling" /></td>
+	<td><input type="radio" checked="checked" name="license_code" value="sampling+" id="sampling+"> <label for="sampling+" i18n:translate="license.sampling_a_sampling+"> <strong>Sampling Plus</strong>: People can take and transform <strong>pieces</strong> of your work for any purpose other than advertising, which is prohibited. <strong>Noncommercial</strong> copying and distribution (like file-sharing) of the <strong>entire work</strong> are also allowed. Hence, "<strong>plus</strong>".</label></td>
+</tr>
+<tr>
+	<td><img src="http://creativecommons.org/icon/nc/deed.gif" align="left" alt="Sampling" /></td>
+	<td><input type="radio" name="license_code" value="nc-sampling+" id="nc-sampling+"> <label for="nc-sampling+" i18n:translate="license.sampling_a_nc-sampling+"><strong>Noncommercial Sampling Plus</strong>: People can take and transform <strong>pieces</strong> of your work for <strong>noncommercial</strong> purposes only. <strong>Noncommercial</strong> copying and distribution (like file-sharing) of the <strong>entire work</strong> are also allowed.</label></td>
+</tr>
+</table>
+
+<br />
+
+                        <p>
+                        <span i18n:translate="license.jurisdiction_question">Jurisdiction of your license</span> (<a href="http://creativecommons.org/license/jurisdiction-popup?lang=en" onclick="window.open('http://creativecommons.org/license/jurisdiction-popup?lang=en', 'characteristic_help', 'width=375,height=300,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes');return false;" i18n:translate="util.more_info">more info</a> <a href="http://creativecommons.org/license/jurisdiction-popup?lang=en" onclick="window.open('http://creativecommons.org/license/jurisdiction-popup?lang=en', 'characteristic_help', 'width=375,height=300,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes');return false;"><img src="http://creativecommons.org/images/popup.gif" width="15" height="13" alt="more info" border="0" i18n:attributes="alt util.more_info;" /></a>)<br />
+                        <select name="field_jurisdiction" 
+                            tal:condition="python: target_lang == 'pt'">
+                            
+                                <option value=""
+                                    i18n:translate="util.Generic">Generic</option>
+                                <option value="br" selected="selected" 
+                                    i18n:translate="country.br">Brazil</option>
+                            
+                        </select>
+                        <select name="field_jurisdiction" 
+                            tal:condition="python: target_lang != 'pt'">
+                            
+                                <option value="" selected="selected" 
+                                    i18n:translate="util.Generic">Generic</option>
+                                <option value="br"
+                                    i18n:translate="country.br">Brazil</option>
+                            
+                        </select>
+                        </p>
+			
+<div metal:use-macro="here/common_ui/macros/more-metadata" />
+
+			<p><input type="submit" value="Get your Sampling License" i18n:attributes="value license.sampling_get;"></p>
+			</form>
+		</div>
+
+<ul><li i18n:translate="license.sampling_note">Note: The sampling license isn't just for music. It can apply to all types of copyrighted work: images, film, etc.</li>
+<li><strong i18n:translate="license.sampling_before">Before you apply the Sampling License to your work, make sure you have the authority to license all the rights involved. Musical works, for example, often consist of multiple copyrights (composition, recording, lyrics).</strong></li></ul>
+
+<div tal:omit-tag="" i18n:translate="license.sampling_alternatives">
+<p>If you <strong>want</strong> to invite people to make <strong>any</strong> commercial re-use of your work &mdash; transformative or not &mdash; you should consider either the <a href="http://creativecommons.org/license/results-one?q_1=2&q_1=1&field_commercial=yes&field_derivatives=sa&field_jurisdiction=&field_format=&field_worktitle=&field_description=&field_creator=&field_copyrightholder=&field_year=&field_sourceurl=&lang=en&n_questions=3">Attribution-ShareAlike</a>
+ license or simply the <a href="http://creativecommons.org/license/results-one?q_1=2&q_1=1&field_commercial=yes&field_derivatives=yes&field_jurisdiction=&field_format=&field_worktitle=&field_description=&field_creator=&field_copyrightholder=&field_year=&field_sourceurl=&lang=en&n_questions=3">Attribution</a> license.</p>
+</div>
+
+</metal:right>
+</body>
+</html>
+

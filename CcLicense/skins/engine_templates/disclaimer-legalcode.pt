@@ -1,0 +1,37 @@
+<html i18n:domain="icommons">
+<head>
+<title>Disclaimer | Creative Commons</title>
+        <link rel="stylesheet" type="text/css" href="/includes/popup.css">
+
+</head>
+<body>
+
+<div class="bodybox">
+<div class="bodyfloat">
+
+<h2>Legal Code Disclaimer</h2>
+
+<p>Creative Commons is not a party
+to this License, and makes no warranty whatsoever in connection with
+the Work. Creative Commons will not be liable to You or any party on
+any legal theory for any damages whatsoever, including without
+limitation any general, special, incidental or consequential damages
+arising in connection to this license. Notwithstanding the foregoing
+two (2) sentences, if Creative Commons has expressly identified itself
+as the Licensor hereunder, it shall have all rights and obligations of
+Licensor. </p>
+		
+		<p>Except for the limited purpose of indicating
+to the public that the Work is licensed under the CCPL, neither party
+will use the trademark "Creative Commons" or any related trademark or
+logo of Creative Commons without the prior written consent of Creative
+Commons. Any permitted use will be in compliance with Creative Commons'
+then-current trademark usage guidelines, as may be published on its
+website or otherwise made available upon request from time to time.</p>
+		
+		<p>Creative Commons may be contacted at <a href="http://creativecommons.org">http://creativecommons.org/</a>.</p>
+
+<div align="center"><a href="javascript:window.close();">Close Window</a></div>
+</body>
+</html>
+

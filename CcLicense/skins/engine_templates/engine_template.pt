@@ -1,0 +1,103 @@
+<metal:page define-macro="master"><html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/portal_skins/main_template/macros/master"
+>
+
+<head>
+
+<metal:title fill-slot="page-title">
+<title>Choose a License | Creative Commons </title>
+</metal:title>
+
+<metal:hs fill-slot="head_slot">
+  <metal:hs define-slot="head_slot" />
+</metal:hs>
+
+<metal:js fill-slot="javascript_head_slot"
+      tal:define="isPartner python:'partner' in request.form;"
+          tal:condition="not:isPartner" >
+  <metal:js define-slot="javascript_slot" />
+</metal:js>
+
+<metal:css fill-slot="custom_css_slot"
+      tal:define="isPartner python:'partner' in request.form;">
+	<style type="text/css" media="all"
+               tal:condition="not:isPartner">
+		@import url(/includes/front-new.css);
+		@import url(/includes/publish.css);
+	</style>
+
+<style type="text/css" tal:condition="isPartner">
+        <!--
+                @import url(/includes/ccliss.css);
+        -->
+</style>
+<link rel="stylesheet" type="text/css" href="#"
+      tal:condition="is_partner" 
+      tal:attributes="href request/stylesheet|nothing" 
+/>
+</metal:css>
+
+</head>
+<body>
+
+<metal:header 
+  fill-slot="page_header"
+  tal:define="section   here/get_tlf; 
+              isPartner python:'partner' in request.form;"
+  tal:condition="not:isPartner">
+
+<div class="categoryback">
+
+<span style="float:right;">
+   <img src="http://creativecommons.org/images/find-foreground.gif" width="137" height="88"
+        ta:attributes="src string:${portal_url}/images/${section}-foreground.gif" />
+</span>
+<p class="breadcrumb">
+<a href="/" i18n:translate="util.home">Home</a>: 
+<a href="/find/" i18n:translate="util.find" tal:attributes="class python:((section == 'find') and 'crumbdown') or ''">Find</a> 
+<a href="/license/" i18n:translate="publish" tal:attributes="class python:((section == 'license') and 'crumbdown') or ''">Publish</a></p>
+
+<a href="/video/" tal:attributes="href string:/${section}/">
+<img src="/images/video-logo.gif" alt="Video" border="0" style="padding-left:20px;" 
+ tal:attributes="src string:/images/${section}-logo.gif; alt section;"/></a>
+
+</div>
+
+</metal:header>
+
+<metal:main_replace 
+      tal:define="isPartner python:'partner' in request.form;"
+     fill-slot="main_replace">
+
+<div id="leftcontent"
+     tal:condition="not:isPartner">
+<div class="padded-left">
+<metal:sidebar define-slot="sidebar"/>
+<metal:left define-slot="left_content" />
+</div>
+</div>
+
+<div id="centercontent"
+     tal:condition="not:isPartner">
+<div class="padded-right">
+<metal:main define-slot="main" />
+<metal:right define-slot="right_content" />
+</div>
+</div>
+
+<metal:partner tal:condition="isPartner">
+<metal:partner_body
+   define-slot="partner_body">
+</metal:partner_body>
+</metal:partner>
+
+</metal:main_replace>
+
+</body>
+</html>
+</metal:page>
