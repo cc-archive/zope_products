@@ -1,0 +1,34 @@
+<html
+  i18n:domain="icommons">
+  <head>
+    <title tal:content="template/title">The title</title>
+  </head>
+  <body>
+    
+<div metal:define-macro="translations" tal:omit-tag="">
+
+<div style="width: 620px; margin-left: auto; margin-right: auto;"><div style="text-align: center;">
+<span i18n:translate="deed.view_in" tal:omit-tag="" />
+<br>
+
+<div tal:omit-tag=""
+     tal:repeat="lang here/active_languages">
+
+<a href="#" title="Catal�" hreflang="ca" 
+   tal:define="url_juris python: ((request['jurisdiction'] != '-') and ('/' + request['jurisdiction'] + '/')) or '/'"
+   rel="alternate" lang="ca" 
+   tal:content="python: here.translate_target('icommons', 'lang.%s' % lang, lang)"
+   tal:attributes="title python: here.translate_target('icommons', 'lang.%s' % lang, lang);
+                   href     string:/licenses/${request/license_code}/${request/version}${url_juris}deed.${lang};
+                   hreflang lang;
+                   lang     lang;
+                   "
+   >Catal�f</a>
+
+</div>
+</div></div>
+
+</div>
+
+  </body>
+</html>

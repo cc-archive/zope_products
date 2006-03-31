@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html i18n:domain="icommons">
+<head>
+<title>Creative Commons Public Domain</title>
+<link rel="stylesheet" type="text/css" href="/includes/deeds.css">
+<link rel="alternate" type="application/rdf+xml" href="rdf" />
+</head>
+
+<body>
+
+
+<div tal:replace="structure python: '<!--\n\n' + context.license.licenseRdf(context.license.issue()['licenserdf']) + '\n\n-->'">
+@license_rdf;noquote@
+</div>
+ 
+<p align="center" i18n:translate="deed.back_to_cc">
+<%=[ccommons::istr $lang deed.back_to_cc]%>
+</p>
+
+<div id="deed">
+	<div align="center"><img src="/images/deed/pd-logo.gif" width="540" height="79" alt="" vspace="14" border="0" /></div>
+	<div class="text" i18n:translate="deed.pd">
+<%=[ccommons::istr $lang deed.pd]%>
+	</div>
+</div>
+</body></html>

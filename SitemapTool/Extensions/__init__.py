@@ -1,0 +1,2 @@
+# SitemapTool External Methods
+# $Id$

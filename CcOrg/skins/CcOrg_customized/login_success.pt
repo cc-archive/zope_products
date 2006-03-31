@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<tal:block tal:condition="exists: here/portal_skins | nothing"
+     tal:replace="nothing">
+
+    <tal:block tal:condition="here/portal_skins/updateSkinCookie | nothing"
+               tal:define="dummy here/setupCurrentSkin" />
+</tal:block>
+
+
+<div metal:fill-slot="main">
+
+    <div tal:define="DateTime python:modules['DateTime'].DateTime;
+                     Batch python:modules['Products.CMFPlone'].Batch;
+                     login_time python:member.getProperty('login_time', DateTime());
+                     begin_time python:here.ZopeTime('2000/01/01');
+                     validate_email here/validate_email;">
+
+            <metal:block tal:on-error="nothing"
+                 tal:define="d_reg python: member.setProperties(last_login_time=login_time);
+                             ereg python: member.setProperties(login_time=here.ZopeTime());">
+            </metal:block>
+
+            <div tal:condition="python: not(login_time == begin_time and validate_email)">
+                <div tal:define="came_from request/came_from|nothing" tal:condition="came_from">
+                    <div tal:define="not_allowed python:('login','login_success','login_password','login_failed','login_form','logged_in','logged_out','registered','mail_password','mail_password_form','join_form','require_login');"
+                         tal:condition="python:came_from.split('?')[0].split('/')[-1:][0] not in not_allowed">
+                         <div tal:define="dummy python: request.RESPONSE.redirect(came_from)" />
+                    </div>
+                </div>
+
+                <h1 i18n:translate="heading_you_are_now_logged_in">You are now logged in</h1>
+
+                <p i18n:translate="description_logged_in_explain">
+                Notice that the top right bar has changed. It now
+                contains several personalized items. Use these items
+                to control your settings and your personal area.
+                They will remain as long as you are logged in.
+                </p>
+
+                <h2>starting points</h2>
+                <ul>
+<li><a href="weblog/entry">creative commons weblog</a> (<a href="weblog/entry/createObject?type_name=BlogEntry">add entry</a>)</li>
+<li><a href="pres/entry">press hits weblog</a> (<a href="press/entry/createObject?type_name=BlogEntry">add entry</a>)</li>
+<li><a href="press-releases/entry">press release weblog</a> (<a href="press-releases/entry/createObject?type_name=BlogEntry">add entry</a>)</li>
+
+</ul>
+		</div>
+        <div tal:condition="python: login_time == begin_time and validate_email">
+            <metal:block tal:define="dummy python:request.RESPONSE.redirect(portal_url+'/password_form');" />
+        </div>
+	</div>
+
+</div>
+
+</body>
+</html>
+

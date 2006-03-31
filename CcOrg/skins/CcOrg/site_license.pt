@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      i18n:domain="plone">
+
+<body>
+
+<div id="cc-footer" metal:define-macro="site_license" i18n:domain="plone">
+
+<p><a rel="license" href="http://creativecommons.org/licenses/by/2.5/"><img src="http://creativecommons.org/images/public/somerights20.png" width="88" height="31" alt="Creative Commons License" style="border:none" /></a><br />
+Except where otherwise <a class="subfoot" href="/policies#license">noted</a>, this site is<br />
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/2.5/" class="subfoot">Creative Commons Attribution 2.5 License</a></p>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+<license rdf:resource="http://creativecommons.org/licenses/by/2.5/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by/2.5/">
+   <requires rdf:resource="http://web.resource.org/cc/Attribution" />
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+   <requires rdf:resource="http://web.resource.org/cc/Notice" />
+</License>
+</rdf:RDF>
+-->
+
+</div>
+
+</body>
+</html>

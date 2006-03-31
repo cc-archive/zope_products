@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="SimpleBlog">
+
+             
+    <metal:css fill-slot="css_slot">
+        <link rel="stylesheet" type="text/css" media="screen" href="" tal:attributes="href string:$portal_url/SimpleBlogCSS.css" />
+    </metal:css>
+
+<body>
+<metal:breadcrumbs fill-slot="page_header">
+<p class="breadcrumb"><a href="/">Home</a>: <a href="/about/" class="crumbdown">About</a></p> 
+</metal:breadcrumbs>
+
+<div metal:fill-slot="sidebar" id="leftcontent">
+<h4>sub-navigation</h4>
+
+	<ul>
+		<li><a href="/about/history">about us</a></li>
+		<li><a href="/about/people">people</a></li>			
+		<li><a href="/about/supporters">supporters</a></li>
+		<li><a href="/about/affiliates">affiliates</a></li>	
+		<li><a href="/faq">faq</a></li>
+		<li><a href="/about/licenses">licenses explained</a></li>
+
+		<li><a href="/about/legal">legal concepts</a></li>
+		<li><a href="/projects/founderscopyright/">founders' copyright</a></li>
+		<li><a href="/about/science">science commons</a></li>
+		<li><a href="/weblog/">weblog</a></li>
+		<li><a href="/press/">press</a></li>
+		<li><a href="/press-releases/">press releases</a></li>
+
+	</ul></div>
+
+<div metal:fill-slot="main_replace" tal:omit-tag="">
+<div id="centercontent">
+<div id="content">
+<span class="pullout">
+<h2>Archives</h2>
+<p tal:content="structure here/month_list">
+</p>
+</span>
+
+    <tal:main-macro metal:define-macro="main"
+      tal:define="displayItems python:here.getDisplayItems();
+                        standardButtons python:here.simpleblog_tool.getShowStandardButtons();
+                        results python:here.month_entries();
+                        displayMode python:here.getDisplayMode();
+                        b_size python:displayItems;
+                        b_start python:0;
+                        b_start request/b_start | b_start;
+                        Batch python:modules['Products.CMFPlone'].Batch;">
+
+        <h1  class="documentFirstHeading">
+            <img src="#" tal:condition="here/simpleblog_tool/getShowIcons" tal:attributes="src string:${here/portal_url}/${here/getIcon};alt here/title" />
+            <span tal:replace="here/title_or_id"/>
+        </h1>
+          
+        <div class="documentDescription"
+             tal:content="structure here/Description">
+            description
+        </div>
+        <div tal:condition="results" tal:define="batch results">
+            <tal:block tal:repeat="entry batch">
+                <tal:list tal:define="obj entry/getObject;headerSize python:3">
+                    <div metal:use-macro="here/SimpleBlog_macros/macros/?displayMode"/>
+                </tal:list>
+            </tal:block>
+<div tal:condition="python: False">
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+</div>
+        </div>
+        
+        <tal:info tal:condition="not: results">
+            <tal:block tal:define="hasEntries python:here.simpleblog_tool.blogHasEntries(here);
+                                             editPermission python:mtool.checkPermission('Modify portal content', here) ">
+                <p tal:condition="hasEntries">
+                    There are currently no published blog entries.
+                </p>
+                <p tal:condition="python: editPermission and hasEntries">
+                    To get a list of the already present (unpublished) entries, click on the contents
+                    tab or click <a href="folder_contents">here</a>.
+                </p>
+                <p tal:condition="not: hasEntries">
+                    There are currently no blog entries.
+                </p>
+            </tal:block>
+         </tal:info>
+    </tal:main-macro>
+</div>
+</div>
+</div>
+
+</body>
+
+</html>

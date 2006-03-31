@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master">
+<head><title></title></head>
+<body>
+<div metal:fill-slot="main" tal:define="selected python:context.IstrTool.defaultLanguages(getattr(request, 'sl', []))">
+<h2 tal:content="here/language" />
+<pre>
+<span style="background-color:#CFCFFF">    </span> English updated after translation, possible update needed
+<span style="background-color:#CFFFCF">    </span> Untranslated
+
+Please do not translate strings for <b>lang_COUNTRY</b> unless they differ from <b>lang</b>.
+</pre>
+<form action="">
+<span tal:repeat="lang here/IstrTool/allLanguages">
+	<input tal:condition="python:not (lang in selected)" tal:attributes="type string:checkbox; name string:sl:list; value lang" />
+	<input tal:condition="python:lang in selected" tal:attributes="type string:checkbox; name string:sl:list; value lang" checked />
+	<span tal:content="lang" />
+</span>
+	<button type=submit>Show Translations</BUTTON>
+</form>
+
+<table>
+<tr>
+<th>id</th>
+<th tal:repeat="sel selected" tal:content="sel" />
+</tr>
+<tr tal:repeat="item python:context.canonicalIds()">
+
+<td><span tal:content="item" /><br>
+<a tal:attributes="href
+      string:${context/absolute_url}/translation_edit/${item}/?${request/QUERY_STRING}"
+      tal:content="context/language" />
+</td>
+
+<div tal:repeat="sel selected">
+<div tal:define="string python:context.IstrTool.getTranslation(sel, item); newer python:context.IstrTool.canonicalNewer(sel, item)">
+
+<td tal:condition="python:newer and string" tal:attributes="style string:background-color:#CFCFFF" tal:content="structure string" />
+
+<td tal:condition="python:not newer and string" tal:content="structure string" />
+
+<td tal:condition="python:not string" tal:attributes="style string:background-color:#CFFFCF" />
+</div>
+</div>
+</tr>
+</table>
+</div>
+</body>
+</html>

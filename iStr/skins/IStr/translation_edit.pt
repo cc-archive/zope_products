@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master">
+  <head><title></title></head>
+  <body>
+    <div metal:fill-slot="main" tal:define="path python:request.traverse_subpath[0]; selected python:context.IstrTool.defaultLanguages(getattr(request, 'sl', []))">
+
+<h2 tal:content="context/language" />
+<p tal:content="path" />
+
+<div tal:condition="python:request.has_key('translated')"
+tal:content="python:context.setTranslated(path,request['translated'])">
+</div>
+<form action="">
+<table>
+<span tal:repeat="lang here/IstrTool/allLanguages">
+<span tal:define="show python:lang in selected; current python:lang == context.getLanguage()">
+<span tal:condition="python: show and not current">
+<tr>
+<td>
+<p tal:content="lang" />
+	<textarea readonly="true" cols="60" rows="8" tal:content="python:context.IstrTool.getTranslation(lang, path)">
+	</textarea>
+</td>
+<td>
+<span tal:content="structure python:context.IstrTool.getTranslation(lang, path)" />
+</td>
+</tr>
+</span>
+<span tal:condition="python: show and current">
+<tr>
+<td>
+<p tal:content="lang" />
+	<textarea tal:attributes="name string:translated; cols string:60; rows string:8; style string:background-color:#CFCFFF" tal:content="python:context.IstrTool.getTranslation(lang, path)">
+	</textarea>
+</td>
+<td>
+<span tal:content="structure python:context.IstrTool.getTranslation(lang, path)" />
+</td>
+</tr>
+</span>
+</span>
+</span>
+
+	<button type=submit>Save Changes</BUTTON>
+</form>
+<pre>
+Do <strong>not</strong> translate variable tokens -- text between @'s.  Example:
+
+  <em>The &#64;license_name&#64; license is my favorite.</em>
+
+Spanish translation.  The token is not translated:
+
+  <em>La licencia &#64;license_name&#64; es mi favorito.</em>
+</pre>
+    </div>
+  </body>
+</html>

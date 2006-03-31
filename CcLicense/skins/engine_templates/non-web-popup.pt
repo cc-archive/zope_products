@@ -1,0 +1,41 @@
+<html i18n:domain="icommons" 
+      metal:use-macro="here/popup_template/macros/master">
+<head>
+ <metal:title fill-slot="title">
+  <title>Non-Web Popup</title>
+ </metal:title>
+</head>
+<body >
+
+<metal:body fill-slot="main" 
+            tal:define="license here/license/issue" >
+
+<p>The text to display is as follows:</p>
+
+<form action="">
+<textarea cols="30" rows="8" name="html" style="width:90%;height:150px;">
+<span tal:omit-tag="" 
+      tal:condition="request/publicdomain|request/pd|nothing"
+      i18n:translate="license.non_web_pd" />
+<span tal:omit-tag="" 
+      tal:condition="not:request/publicdomain|request/pd|nothing"
+      i18n:translate="license.non_web_statement">
+   <span tal:omit-tag="" i18n:name="license_name" 
+         tal:content="license/name" />
+   <span tal:omit-tag="" i18n:name="license_url" 
+         tal:content="license/deed" />
+</span>
+</textarea>
+<p><input type="button" onclick="form.html.focus();form.html.select()" 
+value="util.Highlight_Text" 
+i18n:attributes="value"
+name="grab" /></p>
+</form>
+
+<div align="center"><a href="javascript:window.close();"
+i18n:translate="util.Close_window"><%=[ccommons::istr $lang util.Close_window]%></a></div>
+
+</metal:body>
+</body>
+</html>
+

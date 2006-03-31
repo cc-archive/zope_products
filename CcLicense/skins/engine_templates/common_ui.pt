@@ -1,0 +1,182 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="icommons">
+  <head>
+    <title>CC UI macros</title>
+  </head>
+  <body>
+
+<div metal:define-macro="more-metadata">
+
+                        <!-- new format option that is shown to all, for more detailed RDF -->
+			<p>
+			<span tal:omit-tag="" i18n:translate="license.tell_format">
+			   Tell us the format of your work:</span><br />
+			<select name="field_format">
+
+				<option value="" i18n:translate="util.Other" selected="selected">Other</option>
+			
+				<option value="Sound" i18n:translate="util.Audio">Audio</option>
+			
+				<option value="MovingImage" i18n:translate="util.Video">Video</option>
+			
+				<option value="StillImage" i18n:translate="util.Image">Image</option>
+			
+				<option value="Text" i18n:translate="util.Text">Text</option>
+			
+				<option value="InteractiveResource" i18n:translate="util.Interactive">Interactive</option>
+
+			
+			</select>
+			</p>
+
+<!-- begin optional show/hide elements for detailed RDF -->			
+			<p><a onclick="toggle('search');return false;" href="javascript:toggle('search');return false;"><span id="moreinfo" i18n:translate="license.include_more">Click to include more information about your work.</span></a></p>
+			<div id="search" style="display:none;">
+		
+	<table border="0" cellspacing="3" cellpadding="3">
+	<tr>
+		<td align="right" i18n:translate="util.title_of_work">title of work</td>
+
+		<td> <input type="text" name="field_worktitle" value="" /> 
+		</td>
+	</tr>
+
+	<tr>
+		<td valign="top" align="right" i18n:translate="util.description">description</td>
+		<td> <textarea name="field_description" cols="50" rows="5"></textarea> 
+		</td>
+	</tr>
+
+	<tr>
+		<td align="right" i18n:translate="util.creators_name">creator's name</td>
+		<td> <input type="text" name="field_creator" /> 
+		</td>
+
+	</tr>
+	<tr>
+		<td align="right" i18n:translate="util.copyright_holders_name">
+		  <a href="http://creativecommons.org/jargon/lookup?id=1" class="jargon" onClick="window.open('http://creativecommons.org/jargon/lookup?id=1', 'jargon_term_lookup', 'width=300,height=400,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes'); return false;">copyright</a> holder's name</td>
+
+		<td>
+		 <input type="text" name="field_copyrightholder" value="" /> 
+		</td>
+	</tr>
+	<tr>
+
+		<td align="right" i18n:translate="util.year_of_copyright">
+		  <a href="http://creativecommons.org/jargon/lookup?id=9" class="jargon" onClick="window.open('http://creativecommons.org/jargon/lookup?id=9', 'jargon_term_lookup', 'width=300,height=400,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes'); return false;">year of copyright</a></td>
+		<td>
+<input type="text" name="field_year" size="4"
+     maxlength="4" value=""/>
+		</td>
+
+	</tr>
+	<tr>
+		<td align="right" i18n:translate="util.source_work_url"><a href="http://creativecommons.org/jargon/lookup?id=1" class="jargon" onClick="window.open('http://creativecommons.org/jargon/lookup?id=10', 'jargon_term_lookup', 'width=300,height=400,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes'); return false;">source work</a> URL</td>
+		<td>
+<input type="text" name="field_sourceurl" size="40" value=""/>
+		</td>
+	</tr>
+
+	</table>
+<p>&nbsp;</p>
+</div>
+
+</div>
+
+<div metal:define-macro="step-nav">
+
+<!-- step 1 -->
+<p tal:condition="python: step == '1'" class="currentstep"> 
+    <span i18n:translate="util.step" /> 1<br /> 
+    <span i18n:translate="license.choose_license" />
+    </p>
+<p tal:condition="python: step != '1'" class="step">
+    <span i18n:translate="util.step" /> 1<br /> 
+    <span i18n:translate="license.choose_license" />
+    </p>
+
+<!-- step 2, public domain -->
+<div tal:omit-tag="" tal:condition="python: license_code == 'publicdomain'">
+    <p tal:condition="python: step == '2a'" class="currentstep">
+        <span i18n:translate="util.step" /> 2a<br /> 
+        <span i18n:translate="license.confirm_choice" />
+    </p>
+    <p tal:condition="python: step != '2a'" class="step">
+        <span i18n:translate="util.step" /> 2a<br /> 
+        <span i18n:translate="license.confirm_choice" />
+    </p>
+    
+<!-- step 2b, public domain -->
+    <p tal:condition="python: step == '2b'" class="currentstep">
+        <span i18n:translate="util.step" /> 2b<br /> 
+        <span i18n:translate="license.enter_information" />
+    </p>
+    <p tal:condition="python: step != '2b'" class="step">
+        <span i18n:translate="util.step" /> 2b<br /> 
+        <span i18n:translate="license.enter_information" />
+    </p>
+    
+<!-- step 2c, public domain -->
+    <p tal:condition="python: step == '2c'" class="currentstep">
+        <span i18n:translate="util.step" /> 2c<br /> 
+        <span i18n:translate="license.confirm">confirm</span>
+    </p>
+    <p tal:condition="python: step != '2c'" class="step">
+        <span i18n:translate="util.step" /> 2c<br /> 
+        <span i18n:translate="license.confirm">confirm</span>
+    </p>
+
+</div>
+
+<!-- step 2, not public domain -->
+<div tal:omit-tag="" tal:condition="python: license_code != 'publicdomain'">
+
+<p tal:condition="python: step == '2'" class="currentstep"> 
+    <span i18n:translate="util.step" /> 2<br /> 
+    <span i18n:translate="license.review_choice" />
+    </p>
+<p tal:condition="python: step != '2'" class="step">
+    <span i18n:translate="util.step" /> 2<br />
+    <a tal:condition="python: step > 2"
+        href="license-install?"
+        tal:attributes="href string: results-one?${here/getQueryString}">
+        <span i18n:translate="license.review_choice" />
+    </a>
+    <span tal:condition="python: step <= '2'"
+        i18n:translate="license.review_choice" />
+    </p>
+
+</div>
+
+<!-- step 3 -->
+<p tal:condition="python: step == '3'" class="currentstep">  
+    <span i18n:translate="util.step" /> 3<br /> 
+    <span i18n:translate="license.mark_content" />
+    </p>
+<p tal:condition="python: step != '3'" class="step">
+    <span i18n:translate="util.step" /> 3<br />
+    <a tal:condition="python: step > '3'"
+        href="publicdomain-4?"
+        tal:attributes="href string: license-install?${here/getQueryString}">
+        <span i18n:translate="license.mark_content" />
+    </a>
+    <span tal:condition="python: step <= '3'"
+        i18n:translate="license.mark_content" />
+    </p>
+
+<!-- step 4 -->
+<p tal:condition="python: step == '4'" class="currentstep"> 
+    <span i18n:translate="util.step" /> 4<br /> 
+    <span i18n:translate="license.publicize" />
+    </p>
+<p tal:condition="python: step != '4'" class="step">
+    <span i18n:translate="util.step" /> 4<br /> 
+    <span i18n:translate="license.publicize" />
+    </p>
+
+</div>
+
+  </body>
+</html>

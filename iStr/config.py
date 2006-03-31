@@ -1,0 +1,10 @@
+PROJECTNAME = 'iStr'
+METATYPE = 'iStrTool'
+ADD_CONTENT_PERMISSION = 'Add Hello Worlds'
+VIEW_PERMISSION = 'iStr: View Translation'
+EDIT_PERMISSION = 'iStr: Edit Translation'
+SKINS_DIR = 'skins'
+GLOBALS = globals()
+DATA_DIR = 'data'
+PRIMARY_LANGUAGE = 'en'
+I18N_DIR = 'i18n'

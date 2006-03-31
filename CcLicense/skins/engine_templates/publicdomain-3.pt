@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/engine_template/macros/master"
+      i18n:domain="icommons">
+<head>
+    <metal:hslot fill-slot="head_slot">
+	<title>Public Domain Dedication</title>
+	      
+    </metal:hslot>
+
+    <metal:jslot fill-slot="javascript_slot">        
+    </metal:jslot>
+    
+</head>
+<body>
+
+<metal:bcrumbs fill-slot="breadcrumbs">
+<span style="float:right;"><img src="http://creativecommons.org/images/publish-foreground.gif" width="137" height="88" alt="Publish icon" /></span><p class="breadcrumb"><a href="http://creativecommons.org/">Home</a>: <a href="http://creativecommons.org/find/">Find</a> <a href="http://creativecommons.org/license/" class="crumbdown">Publish</a></p>
+
+<a href="http://creativecommons.org/license/"><img src="http://creativecommons.org/images/publish-logo.gif" alt="Publish" width="159" height="35" border="0" style="padding-left:20px;" /></a>
+
+</metal:bcrumbs>
+
+
+<metal:left fill-slot="left_content">
+<div tal:omit-tag=""
+     tal:define="step string:2c;
+                 license_code string:publicdomain;" >
+    <div metal:use-macro="here/common_ui/macros/step-nav" />
+</div>
+
+</metal:left>
+
+<metal:right fill-slot="right_content">
+
+<div tal:omit-tag="" tal:define="hash_ok here/engine/publicdomain/confirm_hash">
+<div tal:omit-tag="" tal:condition="hash_ok">
+<span i18n:translate="license.pd_confirm">
+    <span i18n:name="email" tal:content="request/email | nothing" />
+    <span i18n:name="title" tal:content="request/title | nothing" />
+    <span i18n:name="copyright_holder" tal:content="request/copyright_holder | nothing" />
+    <span i18n:name="pd_deed_text">
+        <span tal:omit-tag="" i18n:translate="deed.pd">foo</span>
+    </span>
+</span>
+
+<form id="confirm" action="#" method="GET"
+      tal:attributes="action string:${request/URL1}/publicdomain-4">
+<p align="center">
+<input type="hidden" name="email" value="#" tal:attributes="value request/email | nothing" />
+<input type="hidden" name="title" value="#" tal:attributes="value request/title | nothing" />
+<input type="hidden" name="copyright_holder" value="#" tal:attributes="value request/copyright_holder | nothing" />
+
+<INPUT TYPE="submit" value="confirm"
+    i18n:attributes="value util.confirm;" />
+</p>
+</form>
+</div>
+
+<div tal:omit-tag="" tal:condition="not:hash_ok">
+<span i18n:translate="license.pd_bad_confirmation" />
+</div>
+
+</div>
+
+</metal:right>
+</body>
+</html>
+

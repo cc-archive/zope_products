@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:define="dummy
+      python:request.response.setHeader('content-type','text/html charset=utf-8')"
+      tal:omit-tag="">
+
+  <head tal:omit-tag=""><title tal:omit-tag=""></title></head>
+  <body tal:omit-tag="">
+  <div tal:repeat="item python:context.translatedIds()" tal:omit-tag="">
+  msgid "<span tal:content="item" tal:omit-tag="" />"<BR>
+  msgstr "<span tal:content="python:context.getTranslated(item)" tal:omit-tag=""/>"<BR>
+<BR>  <span tal:omit-tag="" />
+  </div>
+  </body>
+</html>
+

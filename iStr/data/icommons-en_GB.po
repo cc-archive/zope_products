@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-code: en_GB\n"
+"Language-name: en_GB\n"
+"Domain: icommons\n"
+msgid "util.Creative_Commons_License"
+msgstr "Creative Commons Licence"
+

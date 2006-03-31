@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/engine_template/macros/master"
+      i18n:domain="icommons">
+
+<head>
+
+<metal:title fill-slot="head_slot">
+<title>Choose a License</title>
+</metal:title>
+
+</head>
+
+<body>
+
+<metal:bcrumbs fill-slot="breadcrumbs">
+<span style="float:right;"><img src="http://creativecommons.org/images/publish-foreground.gif" width="137" height="88" alt="Publish icon" /></span><p class="breadcrumb"><a href="http://creativecommons.org/">Home</a>: <a href="http://creativecommons.org/find/">Find</a> <a href="http://creativecommons.org/license/" class="crumbdown">Publish</a></p>
+
+<a href="http://creativecommons.org/license/"><img src="http://creativecommons.org/images/publish-logo.gif" alt="Publish" width="159" height="35" border="0" style="padding-left:20px;" /></a>
+
+</metal:bcrumbs>
+
+
+<metal:left fill-slot="left_content">
+<div tal:omit-tag=""
+     tal:define="step string:4;
+                 license_code string:publicdomain;" >
+    <div metal:use-macro="here/common_ui/macros/step-nav" />
+</div>
+
+</metal:left>
+
+<metal:right fill-slot="right_content">
+
+<div tal:omit-tag=""
+     i18n:translate="">license.publicize_directions</div>
+
+</metal:right>
+
+</body>
+</html>
+

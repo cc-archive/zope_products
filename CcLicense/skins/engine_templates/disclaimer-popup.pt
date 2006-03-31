@@ -1,0 +1,19 @@
+<html i18n:domain="icommons">
+  <head>
+        <title>Disclaimer | Creative Commons</title>
+        <link rel="stylesheet" type="text/css" href="/includes/popup.css">
+  </head>
+  <body >
+
+<div class="bodybox">
+<div class="bodyfloat">
+
+<h2 i18n:translate="util.Disclaimer"><%=[ccommons::istr $lang util.Disclaimer]%></h2>
+
+<p i18n:translate="deed.disclaimer" />
+                                                                                
+<div align="center"><a href="javascript:window.close();" i18n:translate="util.Close_window"><%=[ccommons::istr $lang util.Close_window]%></a></div>
+</div></div>
+</body>
+</html>
+

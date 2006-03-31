@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<head>
+<title>Sitemap Properties</title>
+</head>
+
+  <body>
+
+    <div metal:fill-slot="main"
+         tal:define="this_url python:here.sitemap_tool.getUrl(request);
+                     result   python:here.sitemap_tool.manage_cmf_submit(request);"
+         >
+
+      <h1>Sitemap Properties</h1>
+
+      <div tal:condition="result" class="portalMessage">
+         <strong tal:content="result" />
+      </div>
+
+<form method="GET" action="">
+
+<table tal:define="this_item python:here.sitemap_tool.getRoot().byPath(this_url)">
+  <tr>
+    <th>Title</th>
+    <td><input name="title" value=""
+               tal:attributes="value python:(this_item and this_item.title) or ''" />
+    </td>
+  </tr>
+  <tr>
+    <th>Path</th>
+    <td>
+      <span tal:content="python:(this_item and this_item.path) or this_url"/>
+      <input name="path" value="" type="hidden"
+             tal:attributes="value python:(this_item and this_item.path) or this_url" />
+    </td>
+  </tr>
+  <tr>
+    <th>Parent</th>
+    <td>
+      <select name="parent_id">
+         <option value="#"
+                 tal:repeat="item python:here.sitemap_tool.flatten(True)"
+                 tal:attributes="value    item/id;
+                                 selected python:(this_item and (this_item.parent.id == item['id'])) or False;"
+                 tal:content="item/title" />
+                 
+      </select>
+    </td>
+  </tr>
+  
+</table>
+
+<input type="submit" name="action" value="Save" />
+<input type="reset"  name="action" value="Cancel" />
+
+</form>
+
+</div>
+</body>
+</html>
+

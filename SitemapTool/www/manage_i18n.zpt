@@ -1,0 +1,41 @@
+<h1 tal:replace="structure here/manage_page_header|nothing">Header</h1>
+<h2 tal:define="manage_tabs_message options/manage_tabs_message | nothing"
+    tal:replace="structure here/manage_tabs">Tabs</h2>
+
+<p>This page displays an empty translation map for the current site map,
+suitable for use as a template for gettext translation maps.
+</p>
+<hr noshade />
+
+<h3 tal:condition="python: 'err_msg' in request.form"
+    tal:content="request/err_msg" />
+
+<div tal:define="sm here/getRoot">
+
+<pre>
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR &lt;EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-08-25 09:47+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME &lt;EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE &lt;LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: latin1 utf-8\n"
+"Domain: SitemapTool\n"
+</pre>
+
+<pre tal:content="sm/transMap" />
+
+</div>
+
+
+<tal:footer tal:replace="structure here/manage_page_footer|nothing">footer</tal:footer>

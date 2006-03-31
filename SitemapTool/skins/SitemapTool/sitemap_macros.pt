@@ -1,0 +1,75 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="SitemapTool">
+<body>
+
+<div metal:define-macro="RootNav"
+      i18n:domain="SitemapTool">
+
+<ul id="navlist"
+    tal:define="nav python: here.sitemap_tool.rootNav(include_root=False)">
+  <div tal:omit-tag=""
+       tal:repeat="item nav">
+  <li tal:condition="python: here.sitemap_tool.sameUrl(here.absolute_url(), item['realpath'])"
+      id="active">
+    <a href="#" title="" 
+       tal:attributes="href python:item['realpath'];
+                       title python:item['title']; 
+		       ">
+       <span tal:content="python: item['translated'] or item['title']" />
+    </a>
+  </li>
+  <li tal:condition="python: not(here.sitemap_tool.sameUrl(here.absolute_url(), item['realpath']))"
+      >
+    <a href="#" title="" 
+       tal:attributes="href python:item['realpath'];
+                       title python:item['title']; ">
+       <span tal:replace="python: item['translated'] or item['title']" />
+    </a>
+  </li>
+  </div>
+</ul>
+
+</div>
+
+<div metal:define-macro="LeftItem">
+
+  <li>
+    <a href="#" 
+       tal:attributes="href python: here.portal_url() + current['path']" >
+       <span tal:replace="current/title" /></a>
+    <div tal:condition="current/children"
+    	 tal:omit-tag="">
+	 <ul tal:define="parent current">
+	    <div tal:repeat="current parent/children"
+	    	 tal:omit-tag="">
+		 
+	 <div metal:use-macro="here/SitemapTool/sitemap_macros/macros/LeftItem" /> 
+
+	    </div>
+	 </ul>
+    </div>
+  </li>
+</div>
+
+<div metal:define-macro="LeftNav">
+
+  <div tal:define="local_nav python:here.sitemap_tool.localnav(request)">
+    <ul>
+      <div tal:repeat="current local_nav"
+      	   tal:omit-tag="">
+
+	 <div metal:use-macro="here/SitemapTool/sitemap_macros/macros/LeftItem" /> 
+
+      </div>
+
+    </ul>
+
+  </div>
+</div>
+
+
+</body>
+</html>
+

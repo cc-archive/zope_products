@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      tal:omit-tag=""
+      tal:define="tmp python:here.setResponseType('text/plain')">
+
+<div tal:omit-tag=""
+     tal:define="displayItems python:here.getDisplayItems();
+                        standardButtons python:here.simpleblog_tool.getShowStandardButtons();
+                        results python:here.ninetydays_entries();
+                        displayMode python:here.getDisplayMode();
+                        b_size python:displayItems;
+                        b_start python:0;
+                        b_start request/b_start | b_start;
+                        Batch python:modules['Products.CMFPlone'].Batch;">
+
+<div tal:replace="structure python:here.html2text(here.title_or_id())" />
+
+<div tal:condition="results" tal:omit-tag="" 
+             tal:define="batch results">
+<tal:block tal:repeat="entry batch">
+<tal:list tal:define="obj entry/getObject;headerSize python:3">
+
+<div tal:replace="structure python:here.html2text('<h3><a href=\'%s\'>%s</a></h3>' % (obj.absolute_url(), obj.title_or_id()))" />
+<div tal:replace="structure python:here.textwrap(here.html2text(obj.getBody()), 80)" tal:omit-tag=""/>
+
+Submitted by <span tal:omit-tag="" tal:condition="python: hasattr(obj, 'old_username')" tal:content="python: getattr(obj, 'old_username')">author</span><span 
+   tal:omit-tag="" tal:condition="python: not(getattr(obj, 'old_username', 0))" 
+   tal:content="python: here.getFullname(obj)">author</span> on <span tal:omit-tag="" 
+      tal:replace="python:here.toPortalTime(obj.simpleblog_tool.getEntryDate(obj), long_format=1)">Jun 2, 2002 2:42 pm</span>.
+
+                </tal:list>
+            </tal:block>
+<div tal:condition="python:False" >
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+</div>
+        </div>
+        
+</div>
+</html>

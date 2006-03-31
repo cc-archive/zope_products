@@ -1,0 +1,47 @@
+<html
+  i18n:domain="icommons">
+  <head>
+    <title tal:content="template/title">The title</title>
+  </head>
+  <body>
+
+<div metal:define-macro="jurisdictions"
+     tal:omit-tag="">
+ <select name="sortby" onchange="orderby(this)"
+         tal:condition="python: getattr(here, 'license', False) and getattr(here.license, 'jurisdictions', False)">
+   <option value="" 
+	   i18n:translate="nav.select_a_country">Select a jurisdiction</option>
+
+   <span tal:repeat="jur here/license/jurisdictions"
+	 tal:omit-tag="">
+     <option value="" i18n:translate=""
+             tal:condition="python: jur[0] != '-'"
+	     tal:content="python: 'country.' + jur[0]" 
+	     tal:attributes="value python:jur[1]['uri'] "/>
+   </span>
+
+  </select>
+</div>
+
+<div metal:define-macro="weblog_feed" tal:omit-tag="">
+<div tal:define="recent python:here.simpleblog_tool.searchForEntries(blog_obj, maxResults = int(blog_item_count))">
+
+     <p tal:repeat="entry recent">
+       <span tal:omit-tag=""
+             tal:define="obj python:entry.getObject()">
+<span tal:replace="nothing">
+                     <strong tal:content="python: obj.entryDate()" /><br />
+</span>
+			<a href="#" 
+                           tal:attributes="href obj/absolute_url;
+                                           title obj/title_or_id" 
+                           title="entry">
+                          <span tal:content="obj/title_or_id"/>
+                        </a> &nbsp;
+             <span tal:replace="structure python:here.strip_tags(obj.getBody())" /></span> ...
+     </p>
+</div>
+</div>
+
+  </body>
+</html>

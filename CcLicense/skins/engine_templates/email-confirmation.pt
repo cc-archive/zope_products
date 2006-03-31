@@ -1,0 +1,17 @@
+<html i18n:domain="icommons" metal:use-macro="here/popup_template/macros/master">
+<head>
+<title>Email Information</title>
+</head>
+<body>
+
+<metal:body fill-slot="main">
+  <p i18n:translate="license.link_emailed" >
+    <span tal:omit-tag="" i18n:name="email" tal:content="request/email" />
+  </p>
+
+  <div align="center"><a href="javascript:window.close();" i18n:translate="util.Close_window" /></div>
+</metal:body>
+
+</body>
+</html>
+

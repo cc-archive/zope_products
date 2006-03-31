@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/engine_template/macros/master"
+      i18n:domain="icommons">
+<head>
+    <metal:hslot fill-slot="head_slot">
+	<title>Developing Nations License</title>
+	      
+    </metal:hslot>
+
+    <metal:jslot fill-slot="javascript_slot">        
+    </metal:jslot>
+    
+</head>
+<body>
+
+<metal:bcrumbs fill-slot="breadcrumbs">
+<span style="float:right;"><img src="http://creativecommons.org/images/publish-foreground.gif" width="137" height="88" alt="Publish icon" /></span><p class="breadcrumb"><a href="http://creativecommons.org/">Home</a>: <a href="http://creativecommons.org/find/">Find</a> <a href="http://creativecommons.org/license/" class="crumbdown">Publish</a></p>
+
+<a href="http://creativecommons.org/license/"><img src="http://creativecommons.org/images/publish-logo.gif" alt="Publish" width="159" height="35" border="0" style="padding-left:20px;" /></a>
+
+</metal:bcrumbs>
+
+
+<metal:left fill-slot="left_content">
+
+<p><a href="/license/">&laquo; back to licenses</a></p>
+
+</metal:left>
+
+<metal:right fill-slot="right_content">
+
+<h1>Developing Nations</h1>
+
+<p>The Developing Nations license allows you to invite a wide range of royalty-free uses of your work in developing nations while retaining your full copyright in the developed world. For the detailed terms, see the Commons Deed and Legal Code below.</p>
+
+<blockquote><em>The Developing Nations license allows, for the first time, any copyright holder in the world to participate first-hand in reforming global information policy. The fact is that most of the world's population is simply priced out of developed nations' publishing output. To authors, that means an untapped readership. To economists, it means "deadweight loss." To human rights advocates and educators, it is a tragedy. The Developing Nations license is designed to address all three concerns.</em></blockquote>
+
+<p><a href="http://creativecommons.org/discuss#dev">Read more</a> about the history of the Developing Nations license.</p>
+
+<p align="center" style="margin-top:20px; margin-bottom:20px; margin-left:14px; margin-right:14px;" class="licensebox">
+
+<!-- Creative Commons License -->
+<a href="http://creativecommons.org/licenses/devnations/2.0/"><img alt="CC DevNations" border="0" src="/images/public/somerights20.png" /></a><br />
+<span i18n:translate="license.devnations_licensed">
+    <span i18n:name="license_url">http://creativecommons.org/licenses/devnations/2.0/</span>
+</span>
+
+<!-- /Creative Commons License -->
+</p>
+
+<div align="center" style="margin:14px;"><table width="500" border="0" cellspacing="0" cellpadding="0">
+<tr>
+        <th width="167" i18n:translate="license.human-readable_commons_deed"/>
+        <th width="167" i18n:translate="license.lawyer-readable_legal_code"/>
+        <th width="166" i18n:translate="license.machine-readable_digital_code"/>
+</tr>
+<tr align="center">
+        <td><a href="http://creativecommons.org/licenses/devnations/2.0/"><img src="/images/licensedeeds/deed.gif" alt="" border="0" /></a></td>
+        <td><a href="http://creativecommons.org/licenses/devnations/2.0/legalcode"><img src="/images/licensedeeds/legalcode.gif" border="0" alt="" /></a></td>
+        <td><a href="/license/work-html-popup?license_code=devnations" onclick="window.open('work-html-popup?lang=en&license_code=devnations" onclick="window.open('work-html-popup?license_code=devnations" onclick="window.open('work-html-popup?lang=en&license_code=devnations', 'html_help', 'width=400,height=350,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes');return false;"><img src="/images/licensedeeds/code.gif" border="0" alt="" /></a></td>
+</tr>
+</table></div>
+
+<h3>Mark Your Work</h3>
+
+<p>Display the icon where you publish your work using the following markup:</p>
+
+<div class="textbox">
+<div align="center">
+<form action="">
+
+<textarea cols="30" rows="8" name="html" style="width:90%;height:150px;">
+
+<!-- Creative Commons License -->
+<a href="http://creativecommons.org/licenses/devnations/2.0/"><img alt="CC Developing Nations" border="0" src="http://creativecommons.org/images/public/somerights20.png" /></a><br />
+<span i18n:translate="license.devnations_licensed">
+    <span i18n:name="license_url">http://creativecommons.org/licenses/devnations/2.0/</span>
+</span>
+<!-- /Creative Commons License -->
+
+
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <license rdf:resource="http://creativecommons.org/licenses/devnations/2.0/" />
+</Work>
+
+<License rdf:about="http://creativecommons.org/licenses/devnations/2.0/">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <requires rdf:resource="http://web.resource.org/cc/Notice" />
+   <requires rdf:resource="http://web.resource.org/cc/Attribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+   <prohibits rdf:resource="http://web.resource.org/cc/HighIncomeNationUse" />
+</License>
+
+</rdf:RDF>
+
+-->
+</textarea>
+
+<p><input type="button" 
+    onclick="form.html.focus();form.html.select()" 
+    value="" name="grab"
+    i18n:attributes="value util.Highlight_Text;" />    [<a href="work-html-popup?license_code=GPL&lang=en"
+       onclick="window.open('work-html-popup?license_code=GPL&lang=en', 'html_help', 'width=400,height=350,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes');return false;" i18n:translate="license.get_html_email">
+</a>]</p>
+</form>
+</div></div>
+
+<p>&nbsp;</p>
+</metal:right>
+</body>
+</html>
+

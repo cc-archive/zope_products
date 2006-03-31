@@ -1,0 +1,29 @@
+## Controller Python Script "discussion_reply"
+##bind container=container
+##bind context=context
+##bind namespace=
+##bind script=script
+##bind state=state
+##bind subpath=traverse_subpath
+##parameters=body_text,subject='', email='',text_format='plain',username=None,password=None
+##title=Reply to content
+##
+from Products.PythonScripts.standard import url_quote_plus
+req = context.REQUEST
+
+creator = context.portal_membership.getAuthenticatedMember().getUserName()
+tb = context.portal_discussion.getDiscussionFor(context)
+id = tb.createReply(title='', text=body_text + 'foo', Creator=creator, author=(subject, email))
+reply = tb.getReply(id)
+
+#XXX THIS NEEDS TO GO AWAY!
+portal_discussion=context.portal_discussion
+if hasattr(portal_discussion.aq_explicit, 'cookReply'):
+    portal_discussion.cookReply(reply, text_format='plain')
+
+from Products.CMFPlone import transaction_note
+transaction_note('Added comment to %s at %s' % (tb.title_or_id(), tb.absolute_url()))
+
+p = tb.aq_parent
+target = '%s/%s' % (p.absolute_url(),p.getTypeInfo().getActionById('view'))
+return req.RESPONSE.redirect(target)

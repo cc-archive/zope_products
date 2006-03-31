@@ -1,0 +1,43 @@
+<h1 tal:replace="structure here/manage_page_header|nothing">Header</h1>
+<h2 tal:define="manage_tabs_message options/manage_tabs_message | nothing"
+    tal:replace="structure here/manage_tabs">Tabs</h2>
+
+<p>Click an item to edit it.</p>
+
+<div tal:define="sm here/getRoot">
+
+<form action="" method="POST"
+      tal:attributes="action here/absolute_url">
+
+<div metal:define-macro="sm_item">
+
+<table tal:define="current sm">
+
+  <tr>
+    <td colspan="2">
+      <span tal:content="current/getItemId" /> (<span tal:content="current/getPath" />)
+    </td>
+  </tr>
+  <tr tal:repeat="child current/getChildren">
+    <td>&nbsp;</td>
+    <td tal:define="sm child">
+       <input type="checkbox" name="ids:list" value="" id=""
+              tal:attributes="value child/getItemId;
+	      		      id    python: 'cb_' + child.getItemId();" />
+       <div metal:use-macro="here/manage_sitemap/macros/sm_item" />
+    </td>
+  </tr>
+
+</table>
+
+</div>
+
+       <input type="submit" name="manage_DeleteItem:method" value="Delete" />
+       <input type="submit" name="manage_AddChild:method"   value="Add" />
+
+</form>
+
+</div>
+
+
+<tal:footer tal:replace="structure here/manage_page_footer|nothing">footer</tal:footer>

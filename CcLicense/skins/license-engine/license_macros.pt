@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="icommons">
+  <head>
+    <title tal:content="template/title">The title</title>
+  </head>
+  <body >
+
+<div metal:define-macro="languages" i18n:domain="icommons"
+     tal:omit-tag="">
+<div class="licensebox" style="background:#FAFAD6;">
+This page is available in the following languages:
+<br/>
+
+<div tal:omit-tag=""
+     tal:repeat="lang here/active_languages">
+<a href="./?language=ca" title="Catal�" hreflang="ca" 
+   rel="alternate" lang="ca" 
+   tal:content="python: here.translate_target('icommons', 'lang.%s' % lang, lang)"
+   tal:attributes="title python: here.translate_target('icommons', 'lang.%s' % lang, lang);
+                   href     string:${here/absolute_url}?lang=${lang};
+                   hreflang lang;
+                   lang     lang;
+                   "
+   >Catal�f</a>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="licensebox" style="background:#FAFAD6;">
+<span tal:omit-tag="" i18n:translate="deed.view_in">
+    This page is also available in the following languages:</span>
+<br/>
+
+<a href="./?language=ca" title="Catal� " hreflang="ca" rel="alternate" lang="ca" i18n:translate="lang.ca" i18n:attributes="title lang.ca;">Catal� </a>
+
+<a href="./?language=de" title="Deutsch" hreflang="de" rel="alternate" lang="de" i18n:translate="lang.de" i18n:attributes="title lang.de;">Deutsch</a>
+
+<a href="./?language=en" title="English" hreflang="en" rel="alternate" lang="en" i18n:translate="lang.en" i18n:attributes="title lang.en;">English</a>
+
+<a href="./?language=es" title="Castellano" hreflang="es" rel="alternate" lang="es" i18n:translate="lang.es" i18n:attributes="title lang.es;">Castellano</a>
+
+<a href="./?language=fi" title="suomi" hreflang="fi" rel="alternate" lang="fi" i18n:translate="lang.fi" i18n:attributes="title lang.fi;">suomi</a>
+
+<a href="./?language=ja" title="日本語" hreflang="ja" rel="alternate" lang="ja" i18n:translate="lang.ja" i18n:attributes="title lang.ja;">日本語</a>
+
+<a href="./?language=nl" title="Nederlands" hreflang="nl" rel="alternate" lang="nl" i18n:translate="lang.nl" i18n:attributes="title lang.nl;">Nederlands</a>
+
+<a href="./?language=pt" title="Português" hreflang="pt" rel="alternate" lang="pt" i18n:translate="lang.pt" i18n:attributes="title lang.pt;">Português</a>
+
+<a href="./?language=zh_TW" title="中文(繁)" hreflang="zh_TW" rel="alternate" lang="zh_TW" i18n:translate="lang.zh_TW" i18n:attributes="title lang.zh_TW;">foo</a>
+</div>
+
+
+  </body>
+</html>

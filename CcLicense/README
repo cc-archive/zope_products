@@ -1,0 +1,14 @@
+CcLicense
+$Id$
+
+This is the Creative Commons license engine for Zope 2.  This package requires
+the XML description of all available licenses.  The most recent version of 
+those files are available as the api_xml virtual module in CVS.  This
+needs to be checked out into the CcLicense directory.  For example:
+
+   $ cvs co -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/cctools login
+   $ cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/cctools co -P api_xml
+
+Questions may be directed to the CC Developer mailing list; list information
+available at http://lists.ibiblio.org/mailman/listinfo/cc-devel.
+

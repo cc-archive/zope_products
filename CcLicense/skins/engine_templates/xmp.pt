@@ -1,0 +1,28 @@
+<div tal:omit-tag=""
+     tal:define="info        here/license/xmp-info;
+                "><?xpacket begin='' id=''?><x:xmpmeta xmlns:x='adobe:ns:meta/'>
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+
+ <rdf:Description rdf:about=''
+  xmlns:xapRights='http://ns.adobe.com/xap/1.0/rights/'>
+  <xapRights:Marked tal:content="info/copyrighted">@copyrighted@</xapRights:Marked>
+  <xapRights:WebStatement tal:content="info/license_url">@license_url@</xapRights:WebStatement>
+ </rdf:Description>
+
+ <rdf:Description rdf:about=''
+  xmlns:dc='http://purl.org/dc/elements/1.1/'>
+  <dc:rights>
+   <rdf:Alt>
+    <rdf:li xml:lang='x-default' tal:content="info/statement">@license_statement@</rdf:li>
+   </rdf:Alt>
+  </dc:rights>
+ </rdf:Description>
+
+ <rdf:Description rdf:about=''
+  xmlns:cc='http://web.resource.org/cc/'>
+  <cc:license rdf:resource='@license_url@' tal:attributes="rdf:resource info/license_url"/>
+ </rdf:Description>
+
+</rdf:RDF>
+</x:xmpmeta>
+<?xpacket end='r'?></div>

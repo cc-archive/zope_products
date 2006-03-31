@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="icommons">
+  <head><title></title></head>
+  <body>
+
+<metal:title fill-slot="page-title">
+ <title>Creative Commons Worldwide: <span tal:omit-tag="" tal:content="string:country.${context/id}" i18n:translate="" /></title>
+</metal:title>
+
+    <div metal:fill-slot="main" tal:define="country string:country.${context/id}">
+<div id="leftcontent">
+<h4>sub-navigation</h4>
+
+<p style="margin-top:20px;margin-left:10px;"><strong>Select Jurisdiction:</strong></p>
+
+	<ul>
+		<li><a href="/worldwide/ar/">argentina</a></li>
+		<li><a href="/worldwide/au/">australia</a></li>
+		<li><a href="/worldwide/at/">austria</a></li>
+		<li><a href="/worldwide/be/">belgium</a></li>
+
+		<li><a href="/worldwide/br/">brazil</a></li>
+		<li><a href="/worldwide/bg/">bulgaria</a></li>
+		<li><a href="/worldwide/ca/">canada</a></li>
+		<li><a href="/worldwide/cl/">chile</a></li>
+		<li><a href="/worldwide/cn/">china</a></li>
+		<li><a href="/worldwide/hr/">croatia</a></li>
+
+		<li><a href="/worldwide/dk/">denmark</a></li>
+		<li><a href="/worldwide/fi/">finland</a></li>
+		<li><a href="/worldwide/fr/">france</a></li>
+		<li><a href="/worldwide/de/">germany</a></li>
+		<li><a href="/worldwide/hu/">hungary</a></li>
+		<li><a href="/worldwide/ie/">ireland</a></li>
+
+		<li><a href="/worldwide/il/">israel</a></li>
+		<li><a href="/worldwide/it/">italy</a></li>
+		<li><a href="/worldwide/jp/">japan</a></li>
+		<li><a href="/worldwide/jo/">jordan</a></li>
+		<li><a href="/worldwide/my/">malaysia</a></li>
+		<li><a href="/worldwide/mx/">mexico</a></li>
+
+		<li><a href="/worldwide/nl/">netherlands</a></li>				
+		<li><a href="/worldwide/ng/">nigeria</a></li>
+		<li><a href="/worldwide/ph/">philippines</a></li>	
+		<li><a href="/worldwide/pl/">poland</a></li>		
+		<li><a href="/worldwide/si/">slovenia</a></li>
+		<li><a href="/worldwide/za/">south africa</a></li>
+		<li><a href="/worldwide/kr/">south korea</a></li>
+
+		<li><a href="/worldwide/es/">spain</a></li>
+		<li><a href="/worldwide/se/">sweden</a></li>
+		<li><a href="/worldwide/ch/">switzerland</a></li>
+		<li><a href="/worldwide/tw/">taiwan</a></li>
+		<li><a href="/worldwide/ua/">ukraine</a></li>
+		<li><a href="/worldwide/uk/">uk: england and wales</a></li>
+
+        <li><a href="/worldwide/scotland/">uk: scotland</a></li></ul>
+</div>
+
+<div id="centercontent"><div class="padded-right">
+	<h1><a href="/worldwide/" style="text-decoration:none;">Creative Commons Worldwide</a></h1>
+	<h2>International Commons: <span tal:content="country" i18n:translate="" /></h2>
+	<p><img tal:attributes="src string:${context/id}.gif" /></p>
+
+	<div class="licensebox" style="margin:14px;" tal:condition="python:context.status == 'Completed'">
+		<p>The <span tal:content="country" i18n:translate="" /> license has now been integrated into <a tal:attributes="href string:/license/?jurisdiction=${context/id}">the Creative Commons licensing process</a>, so you are able to license your works under this jurisdiction's law. </p>
+		<p>Many thanks to all who contributed to the license-porting process. This page remains for reference.</p>
+		<p>Please take a look at the mailing-list archive if you are interested in the academic discussion leading to the <span tal:content="country" i18n:translate="" /> final license.</p>
+	</div>
+
+	<p>Creative Commons is working with <span tal:content="structure context/partner" /> on porting the Creative Commons licenses to <span tal:content="country" i18n:translate="" />.</p>
+
+	<h2>iCommons <span tal:content="country" i18n:translate=""/> List</h2>
+	<p>Project Lead: <span tal:content="structure context/leads" /></p>
+
+	<span tal:content="structure context/materials" />
+
+	<span tal:content="structure context/partnerblurb" />
+
+	<div tal:condition="python:context.acknowledgements">
+	<h2>Acknowledgements</h2>
+	<span tal:content="structure context/acknowledgements" />
+	</div>
+</div></div>
+    </div>
+  </body>
+</html>
+

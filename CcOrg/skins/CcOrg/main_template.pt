@@ -1,0 +1,177 @@
+<metal:page define-macro="master"><metal:doctype define-slot="doctype"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"></metal:doctype>
+<metal:block define-slot="top_slot" />
+<metal:block use-macro="here/global_defines/macros/defines" />
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      tal:attributes="lang default_language|default;
+                      xml:lang default_language|default;"
+      tal:define="is_partner python:request.has_key('partner');
+                  target_lang here/getLanguage;">
+
+
+  <head metal:use-macro="here/header/macros/html_header">
+
+    <metal:title fill-slot="page-title">
+      <metal:title define-slot="page-title">
+    <title tal:define="portal_title portal_properties/title;
+                       here_title here/title_or_id;
+                       here_id here/getId;
+                       template_title template/title_or_id;
+                       here_title python: portal_title != here_title and here_title or template_title;
+                       here_title python: here_id != here_title and here_title or template_title;"
+           tal:content="string: $here_title | $portal_title">
+      Title of page
+    </title>
+    </metal:title>
+    </metal:title>
+
+    <metal:fillbase fill-slot="base">
+      <metal:baseslot define-slot="base">
+        <base href="" tal:attributes="href here/renderBase" />
+      </metal:baseslot>
+    </metal:fillbase>
+
+    <metal:headslot fill-slot="head_slot"
+                    tal:define="language here/Language;
+                                lang language | default_language;
+                                charset site_properties/default_charset|string:utf-8">
+
+      <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
+        Get the global cache headers located in global_cache_settings.
+      </metal:cache>
+
+      <metal:headslot define-slot="head_slot" />
+      <!-- A slot where you can insert elements in the header from a template -->
+    </metal:headslot>
+
+    <metal:cssslot fill-slot="css_slot">
+      <metal:cssslot define-slot="custom_css_slot" >
+
+<style type="text/css" media="all"
+       tal:condition="python:not(is_partner)"
+       tal:content="here/base_css" >
+</style>
+<style type="text/css" media="all"
+         tal:condition="python: is_partner and request.has_key('stylesheet')">
+           <!--
+           @import url(<span tal:replace="python: request['stylesheet']" />);
+           -->
+</style>
+      </metal:cssslot>
+    </metal:cssslot>
+
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+<script type="text/javascript"
+        tal:condition="python:not(is_partner)">
+   
+</script>
+      <metal:javascriptslot define-slot="javascript_head_slot" />
+    </metal:javascriptslot>
+  </head>
+
+  <body>
+
+
+	<div id="container">
+		<div id="banner">
+		<div style="float:left;width:48%;"><a href="/" tal:attributes="href portal_url"><img src="/images/ap/top-logo.gif" border="0" width="149" height="75" alt="Creative Commons" i18n:attributes="alt util.Creative_Commons"/></a></div>
+		<div style="float:left;width:50%;text-align:right;">
+		<div style="margin-bottom:10px;"><a href="/support/"><img src="/images/support-commons.gif" alt="Support the Commons" width="194" height="35" i18n:attributes="alt" border="0" /></a></div>
+
+		<form action="" style="margin:0px;margin-bottom:4px;">
+		<a href="/worldwide/"><img src="/images/worldwide.gif" width="130" height="12" border="0" alt="Creative Commons Worldwide" /></a>
+<metal:jurisdiction
+       use-macro="here/cc_macros/macros/jurisdictions" />
+		</form>
+		</div>
+</div>
+
+<div id="page-body">
+<div tal:omit-tag="" tal:condition="not: isAnon">
+           <div metal:use-macro="here/global_sections/macros/portal_tabs">
+             The global sections tabs. (Welcome, News etc)
+           </div>
+
+
+           <div metal:use-macro="here/global_personalbar/macros/personal_bar">
+             The personal bar. (log in, logout etc...)
+           </div>
+
+           <div metal:use-macro="here/global_pathbar/macros/path_bar">
+             The breadcrumb navigation ("you are here")
+           </div>
+</div>
+
+<metal:page_header define-slot="page_header" />
+<metal:sidebar define-slot="sidebar" />
+
+             <metal:block define-slot="content">
+                <div tal:omit-tag=""
+                     metal:define-macro="content"
+                     tal:define="show_border is_editable;"
+                     tal:attributes="class python:test(show_border,'documentEditable','')">
+
+                  <metal:ifborder tal:condition="show_border" >
+                    <div metal:use-macro="here/global_contentviews/macros/content_views">
+                      The content views (View, Edit, Properties, Workflow)
+                    </div>
+
+                    <div metal:use-macro="here/global_contentviews/macros/content_actions">
+                      The content bar
+                    </div>
+                  </metal:ifborder>
+
+                    <a name="documentContent"></a>
+<div tal:omit-tag=""
+     tal:condition="not:isAnon">
+                    <div metal:use-macro="here/global_statusmessage/macros/portal_message">
+                      Portal status message
+                    </div>
+</div>
+                    <metal:header metal:define-slot="header" tal:content="nothing">
+                      Visual Header
+                    </metal:header>
+
+                    <metal:bodytext metal:define-slot="main_replace">
+
+<div id="centercontent" metal:define-slot="main"  tal:content="nothing">
+                      Page body text
+</div>
+                    </metal:bodytext>
+
+                    <metal:sub metal:define-slot="sub">
+                      <metal:discussion use-macro="here/viewThreadsAtBottom/macros/discussionView" />
+                    </metal:sub>
+
+                </div>
+
+              </metal:block>
+
+<p>
+  
+<metal:linkslot define-slot="link_slot" />
+
+<br />
+  
+</p>
+
+
+</div>
+
+<div id="portal-footer" metal:use-macro="here/footer/macros/portal_footer">
+</div>
+</div>
+
+<div align="center">
+<div id="tinyfoot">
+<div metal:use-macro="here/site_license/macros/site_license">
+	  Footer
+	</div>
+</div></div>
+
+  </body>
+</html>
+</metal:page>
+
+

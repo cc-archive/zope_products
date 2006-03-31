@@ -1,0 +1,47 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html tal:define="license here/license/issue_partner" i18n:domain="icommons">
+<head>
+<title>Creative Commons</title>
+
+<style type="text/css">
+        <!--
+                @import url(/includes/ccliss.css);
+                @import url(<span tal:replace="request/stylesheet" />);
+        -->
+</style>
+<link rel=stylesheet href="#" type="text/css"
+      tal:condition="request/stylesheet|nothing"
+      tal:attributes="href request/stylesheet" />
+
+</head><body>
+
+<div id="main">
+
+
+<div class="header"
+   tal:define="partner_logo python: request.form.get('partner_icon_url', '/images/remote_logo.gif');">
+   <img tal:attributes="src partner_logo;"
+        src="/images/remote_logo.gif" alt="" border="0" />
+</div>
+
+<div class="nav">provided by <a href="http://creativecommons.org"
+    i18n:translate="util.Creative_Commons">Creative Commons</a></div>
+
+<p i18n:translate="license.partner_selected">
+<span i18n:name="license_deed_url" tal:content="license/deed_url" />
+You have selected the 
+<a target="cc_other" href="#" tal:attributes="href license/deed_url"><b i18n:name="license_pretty_name" tal:content="license/name" /></a>.<br>
+This license is permanently located at<br>
+<b><tt tal:content="license/deed_url" i18n:name="license_url"/></b>.
+</p>
+
+<p i18n:translate="license.you_may_proceed">
+<span tal:omit-tag=""
+      i18n:name="processed_exit_url" tal:content="license/exit_url" />
+You may now <a href="#" tal:attributes="href license/exit_url">proceed</a>
+</p>
+
+</div>
+
+</body>
+</html>

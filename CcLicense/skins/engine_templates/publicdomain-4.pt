@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/engine_template/macros/master"
+      i18n:domain="icommons">
+<head>
+    <metal:hslot fill-slot="head_slot">
+	<title>Mark Content</title>
+	      
+    </metal:hslot>
+
+    <metal:jslot fill-slot="javascript_slot">        
+    </metal:jslot>
+    
+</head>
+<body>
+
+<metal:bcrumbs fill-slot="breadcrumbs">
+<span style="float:right;"><img src="http://creativecommons.org/images/publish-foreground.gif" width="137" height="88" alt="Publish icon" /></span><p class="breadcrumb"><a href="http://creativecommons.org/">Home</a>: <a href="http://creativecommons.org/find/">Find</a> <a href="http://creativecommons.org/license/" class="crumbdown">Publish</a></p>
+
+<a href="http://creativecommons.org/license/"><img src="http://creativecommons.org/images/publish-logo.gif" alt="Publish" width="159" height="35" border="0" style="padding-left:20px;" /></a>
+
+</metal:bcrumbs>
+
+
+<metal:left fill-slot="left_content">
+<div tal:omit-tag=""
+     tal:define="step string:3;
+                 license_code string:publicdomain;" >
+    <div metal:use-macro="here/common_ui/macros/step-nav" />
+</div>
+
+</metal:left>
+
+<metal:right fill-slot="right_content">
+<div tal:omit-tag="" 
+     tal:define="email_result here/engine/publicdomain/send_dedication" >
+<h1 i18n:translate="license.Mark_Content">Mark</h1>
+
+<p i18n:translate="license.mark_pd" />
+
+<p i18n:translate="license.in_order_to" />
+                                                                                
+<ul>
+<li><span tal:omit-tag="" i18n:translate="license.mark_web"/><br /><br />
+                                                                                
+<div class="textbox">
+<div align="center">
+<form action="">
+<textarea cols="30" rows="8" name="html" 
+    style="width:90%;height:150px;"
+    tal:content="python:getattr(here, 'get-html')('http://creativecommons.org/licenses/publicdomain/')">@html@</textarea>
+                                                                                
+<p><input type="button" onclick="form.html.focus();form.html.select()" value="highlight" name="grab" i18n:attributes="value util.Highlight_Text" /> 
+[<a href="work-html-popup?licensecode=pd&pd=true" 
+    onclick="window.open('work-html-popup?licensecode=pd&pd=true', 'html_help', 'width=400,height=350,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=yes,menubar=no,status=yes');return false;" i18n:translate="license.get_html_email" >x</a>]</p>
+                                                                                
+</form>
+</div></div></li>
+        <li i18n:translate="license.mark_mp3"/>
+        <li i18n:translate="license.mark_nonweb" />
+        <li i18n:translate="license.mark_rss"/>
+        <li i18n:translate="license.mark_xmp" />
+</ul>
+
+<form action="publicize">
+    <div tal:omit-tag=""
+        tal:repeat="k request/form/keys">
+        <input type="hidden" name="" value=""
+            tal:attributes="name k;
+                            value python:request.form[k];"
+                            />
+    </div>
+    
+<p class="textbox"><span i18n:translate="license.Final_step"/> <input type=submit value="publicize"
+    i18n:attributes="value license.learn_publicize"></p>
+</form>
+</div>
+
+</metal:right>
+</body>
+</html>
+

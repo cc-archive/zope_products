@@ -1,0 +1,39 @@
+<h1 tal:replace="structure here/manage_page_header|nothing">Header</h1>
+<h2 tal:define="manage_tabs_message options/manage_tabs_message | nothing"
+    tal:replace="structure here/manage_tabs">Tabs</h2>
+
+<div tal:condition="python:'ids' in request.form">
+
+<p>Edit the title and URL as desired; note that changes to the title will
+not impact the generated ID.</p>
+
+<div tal:define="current python: here.ById(request.ids[0])">
+
+<form action="" method="POST"
+      tal:attributes="action here/absolute_url">
+
+ <input name="id" value="" type="hidden"
+ 	tal:attributes="value current/id" />
+ Id: <span tal:content="current/id" /><br/>
+ Title: <input name="title" value="" tal:attributes="value current/title"/><br/>
+ URL: <input name="path" value="" tal:attributes="value current/path" /><br/>
+
+  <input type="submit" name="manage_EditChild:method" value="Save" />
+  <input type="submit" name="manage_sitemap:method" value="Cancel" />
+
+</form>
+
+</div>
+
+</div>
+
+<div tal:condition="python:'ids' not in request.form">
+
+<h3>You must select an item to edit.</h3>
+<form action="#">
+  <input type="submit" name="manage_sitemap:method" value="OK" />
+</form>
+
+</div>
+
+<tal:footer tal:replace="structure here/manage_page_footer|nothing">footer</tal:footer>
