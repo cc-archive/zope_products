@@ -510,10 +510,13 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	       result.append((j_id, j_info))
 
-	   if not launched:
-		   return result
-	   else:
-		   return [n for n in result if n[1]['launched']]
+	   if launched:
+	       result = [n for n in result if n[1]['launched']]
+
+	   # sort the result by country code
+	   result.sort( lambda x,y: cmp(x[0], y[0]) )
+
+	   return result
 
 	security.declarePublic("jurisdictions")
 	def licenses_rdf(self, ):
