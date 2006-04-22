@@ -451,7 +451,8 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	security.declarePublic("languageJurisdiction")
 	def languageJurisdiction(self, lang, jurisdiction=None):
-	   """Returns the default jurisdiction for a language, or the specififed jurisdiction."""
+	   """Returns the default jurisdiction for a language,
+	   or the specififed jurisdiction."""
 
            if jurisdiction != None:
               return jurisdiction
@@ -478,15 +479,15 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	   result = {}
 	   
 	   license_doc = self.LICENSE_FILE()
-	
-	   js = license_doc.xpath('//jurisdiction-info')
 
-	   for j in js:
-	       j_id = j.xpath('./@id')[0]
-	       j_langs = j.xpath('./languages')[0].text
-	       result[j_id] = j_langs.split()
+	   js_langs = license_doc.xpath("//jurisdiction-info[@id='%s']/"
+					"languages" % jurisdiction)
 
-	   return result
+	   if js_langs:
+		   return js_langs[0].text.split()
+	   else:
+		   return []
+
 
 	security.declarePublic("jurisdictions")
 	def jurisdictions(self, launched=False):
