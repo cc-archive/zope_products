@@ -275,7 +275,58 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 			'deed_url':deed_url,
 			'exit_url':exit_url,
 			}
-	
+
+	def extractWorkMeta(self, req):
+		"""Extract work metadata fields and return a dict; missing
+		fields are specified as None."""
+
+		result = {'title' : None,
+			  'creator' : None,
+			  'copyright_holder' : None,
+			  'copyright_year' : None,
+			  'description' : None,
+			  'format' : None,
+			  'work_url' : None,
+			  'source_work_url' : None,
+			  }
+
+		# look for keys that match the param names
+		for key in req:
+			if key in result:
+				result[key] = req[key]
+
+		# look for keys from the license chooser interface
+		
+		# work title
+		if req.has_key('field_worktitle'):
+			result['title'] = req['field_worktitle']
+
+		# creator
+		if req.has_key('field_creator'):
+			result['creator'] = req['field_creator']
+
+		# copyright holder
+		if req.has_key('field_copyrightholder'):
+			result['copyright_holder'] = req['field_copyrightholder']
+
+		# copyright year
+		if req.has_key('field_year'):
+			result['copyright_year'] = req['field_year']
+
+		# description
+		if req.has_key('field_description'):
+			result['description'] = req['field_description']
+			
+		# format
+		if req.has_key('field_format'):
+			result['format'] = req['field_format']
+
+		# source url
+		if req.has_key('field_sourceurl'):
+			result['source_work_url'] = req['field_sourceurl']
+
+		return result
+		    		
 	security.declarePublic("issue")
 	def issue(self, request=None):
 		if request is None:
@@ -322,16 +373,10 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		license_rdf = self.html_comment(license_xml)
 		
 		# generate the work RDF
-		work_rdf = self.workRdf(license_url = license_uri,
-										title= (request.has_key('field_worktitle') and request['field_worktitle']) or None,
-										creator= (request.has_key('field_creator') and request['field_creator']) or None,
-										copyright_holder= (request.has_key('field_copyrightholder') and request['field_copyrightholder']) or None,
-										copyright_year= (request.has_key('field_year') and request['field_year']) or None,
-										description= (request.has_key('field_description') and request['field_description']) or None,
-										format= (request.has_key('field_format') and request['field_format']) or None,
-										work_url= (request.has_key('work_url') and request['work_url']) or None,
-										source_work_url= (request.has_key('field_sourceurl') and request['field_sourceurl']) or None
-									   )
+		work_meta = self.extractWorkMeta(request)
+		work_meta['license_url'] = license_uri
+		work_rdf = self.workRdf(**work_meta)
+			
 		old_workurl = """<Work rdf:about=""><license rdf:resource="%s"/></Work>""" % license_uri
 		license_rdf = license_rdf.replace(old_workurl, work_rdf)
 		
