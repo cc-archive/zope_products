@@ -361,6 +361,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 			      copyright_holder=None, copyright_year=None, 
 			      description=None, format=None, work_url=None, 
 			      source_work_url=None):
+		
 		WORK_FORMATS = {'Other':None,
 						'Audio':'Sound',
 						'Video':'MovingImage',
@@ -412,7 +413,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		<rdf:RDF xmlns="http://web.resource.org/cc/"
 			xmlns:dc="http://purl.org/dc/elements/1.1/"
 			xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-		<Work rdf:about=""
+		<Work rdf:about="">
 		\t<license rdf:resource="%s" />%s
 		</Work>
 		
