@@ -291,7 +291,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 			  }
 
 		# look for keys that match the param names
-		for key in req:
+		for key in req.form:
 			if key in result:
 				result[key] = req[key]
 
