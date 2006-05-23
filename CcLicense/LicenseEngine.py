@@ -176,16 +176,18 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	return "\n".join(rdf_lines)
 	
-	security.declarePublic('licenseCodeToUrl')
-	def licenseCodeToUrl(self, code, jurisdiction='', version=2.0):
-		"""Generates a license URL from the code and jurisdiction;
-		defaults to the current license version."""
+    security.declarePublic('licenseCodeToUrl')
+    def licenseCodeToUrl(self, code, jurisdiction='', version=2.0):
+        """Generates a license URL from the code and jurisdiction;
+        defaults to the current license version."""
 		
-		lurl = 'http://creativecommons.org/licenses/%s/%s/%s' % (code, version, jurisdiction)
-		if lurl[-1] != '/':
-		   lurl = '%s/' % lurl
+        lurl = 'http://creativecommons.org/licenses/%s/%s/%s' % (
+            code, version, jurisdiction)
+        
+        if lurl[-1] != '/':
+            lurl = '%s/' % lurl
 		
-		return lurl
+        return lurl
 	
     security.declarePublic('licenseCodeToAnwers')
     def licenseCodeToAnswers(self, licenseCode, jurisdiction='',
@@ -356,9 +358,11 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	# check for license_code
 	elif request.has_key('license_code'):
-	   jurisdiction = (('jurisdiction' in request.keys()) and (request['jurisdiction'])) or \
-					  (('field_jurisdiction' in request.keys()) and (request['field_jurisdiction'])) or \
-					  ''
+	   jurisdiction = (('jurisdiction' in request.keys()) and
+                           (request['jurisdiction'])) or \
+                          (('field_jurisdiction' in request.keys()) and
+                           (request['field_jurisdiction'])) or \
+			  ''
 	   answers = self.licenseCodeToAnswers(request['license_code'], jurisdiction, version = request.form.get('version', None), locale=locale)
 
 	else:
@@ -578,5 +582,42 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
     security.declarePublic("jurisdictions")
     def licenses_rdf(self, ):
         return file(LICENSES_RDF).read()
+
+    security.declarePublic("launchedLicenses")
+    def launchedLicenses(self, locale='', jurisdiction="-"):
+        """Returns a list of launched licenses for the specified version;
+        only the latest version of each license is included.  The licenses
+        are returned as a list of two-tuples: (license_name, license_url).
+        """
+
+        # initialize the result
+        result = []
+        
+        # get a sequence of elements representing 
+        # this jurisdiction in each license
+        licenses = self.LICENSE_FILE.xpath('//jurisdiction[@id="-"]')
+
+        for l in licenses:
+            # find the latest version of the license
+            url = l.xpath('./version[@id="%s"]/@uri' %
+                          max(l.xpath('./version/@id')))
+
+            if url:
+                url = url[0]
+            else:
+                continue
+
+            # determine the localized name
+            request = self.REQUEST
+            request['lang'] = locale
+            request['license_code'] = self.licenseUrlToCode(url)
+            request['jurisdiction'] = jurisdiction
+
+            license_info = self.issue(request)
+            
+            result.append( (license_info['name'], url) )
+        
+        return result
+
     
 InitializeClass(LicenseEngine)
