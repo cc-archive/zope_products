@@ -515,21 +515,21 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	or the specififed jurisdiction."""
 
 	if jurisdiction != None:
-	return jurisdiction
+	    return jurisdiction
 
 	lang_country = re.split('[-_]',lang)
 	if len(lang_country) == 2:
-	lang = lang_country[0]+'_'+lang_country[1].upper()
+	    lang = lang_country[0]+'_'+lang_country[1].upper()
 
 	license_doc = self.LICENSE_FILE()
 
 	langs = license_doc.xpath('//jurisdiction-info/languages')
 
 	for l in langs:
-	if lang in l.text.split():
-	    juris = l.xpath('../@id')
-	    if juris and len(juris) > 0:
-	        return juris[0]
+	    if lang in l.text.split():
+	        juris = l.xpath('../@id')
+	        if juris and len(juris) > 0:
+	            return juris[0]
 
 	return None
 
@@ -563,16 +563,16 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	js = license_doc.xpath('//jurisdiction-info')
 
 	for j in js:
-	j_id = j.xpath('./@id')[0]
+	    j_id = j.xpath('./@id')[0]
 
-	j_info = {'id':j_id}
-	j_info['uri'] = j.xpath('./uri')[0].text
-	j_info['launched'] = (j.xpath('./@launched')[0] == 'true')
+	    j_info = {'id':j_id}
+	    j_info['uri'] = j.xpath('./uri')[0].text
+	    j_info['launched'] = (j.xpath('./@launched')[0] == 'true')
 
-	result.append((j_id, j_info))
+	    result.append((j_id, j_info))
 
 	if launched:
-	result = [n for n in result if n[1]['launched']]
+	    result = [n for n in result if n[1]['launched']]
 
 	# sort the result by country code
 	result.sort( lambda x,y: cmp(x[0], y[0]) )
@@ -584,18 +584,19 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
         return file(LICENSES_RDF).read()
 
     security.declarePublic("launchedLicenses")
-    def launchedLicenses(self, locale='', jurisdiction="-"):
+    def launchedLicenses(self, jurisdiction="-"):
         """Returns a list of launched licenses for the specified version;
         only the latest version of each license is included.  The licenses
         are returned as a list of two-tuples: (license_name, license_url).
         """
 
         # initialize the result
-        result = []
+        result = {}
         
         # get a sequence of elements representing 
         # this jurisdiction in each license
-        licenses = self.LICENSE_FILE.xpath('//jurisdiction[@id="-"]')
+        licenses = self.LICENSE_FILE().xpath('//jurisdiction[@id="%s"]' % 
+                                             jurisdiction)
 
         for l in licenses:
             # find the latest version of the license
@@ -607,17 +608,21 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
             else:
                 continue
 
+            if 'by' not in url: continue
+
             # determine the localized name
             request = self.REQUEST
-            request['lang'] = locale
-            request['license_code'] = self.licenseUrlToCode(url)
+            request['license_code'] = self.licenseUrlToCode(url)[0]
             request['jurisdiction'] = jurisdiction
 
             license_info = self.issue(request)
             
-            result.append( (license_info['name'], url) )
+            result[license_info['name']] = url
         
-        return result
+        keys = result.keys()
+        keys.sort()
+
+        return [(n, result[n]) for n in keys]
 
     
 InitializeClass(LicenseEngine)
