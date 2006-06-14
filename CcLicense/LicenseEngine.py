@@ -270,6 +270,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	license_url = deed_url = license['deed']
 	license_name = license['name']
 	license_button = license['imageurl']
+	license_code = license['code']
 
 	# compute the new exit url
 	try:
@@ -280,6 +281,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	    exit_url = exit_url.replace('[license_button]',
 					url_quote(license_button))
 	    exit_url = exit_url.replace('[deed_url]', url_quote(deed_url))
+	    exit_url = exit_url.replace('[license_code]', url_quote(license_code))
 	except:
 	    exit_url = ""
 	    
@@ -348,6 +350,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	jurisdiction = ''
 	locale = request.get('lang', '')
+	code = ''
 
 	if request.has_key('pd') or request.has_key('publicdomain') or (request.has_key('license_code') and request['license_code'] == 'publicdomain'):
 	   # this is public domain
@@ -394,6 +397,10 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	old_workurl = """<Work rdf:about=""><license rdf:resource="%s"/></Work>""" % license_uri
 	license_rdf = license_rdf.replace(old_workurl, work_rdf)
 
+	m = re.match('http:\/\/creativecommons.org\/licenses\/(.+?)\/.*', license_uri)
+	if m != None:
+	   code = m.group(1)
+
 	license = {'name':license_name,
 		   'deed':license_uri,
 		   'licenserdf': licenseonlyrdf,
@@ -401,6 +408,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		   'imageurl':license_img,
 		   'jurisdiction':jurisdiction,
 		   'rdf':license_rdf,
+                   'code':code
 		  }
 
 	return license
