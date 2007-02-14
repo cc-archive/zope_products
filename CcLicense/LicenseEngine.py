@@ -27,6 +27,8 @@ from config import license_view_permission, unique_id
 from config import XSLT_SOURCE, LICENSE_FILE, LICENSES_RDF
 from xmlcache import XmlCache
 
+from zLOG import LOG, ERROR
+
 class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
     meta_type = 'License Engine'
     id = unique_id
@@ -502,7 +504,11 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	transform = lxml.etree.XSLT( self.XSLT_SOURCE() )
 
 	# apply the stylesheet to the answers
-	result = transform.apply(answers)
+        try:
+	   result = transform.apply(answers)
+        except lxml.etree.XSLTApplyError, e:
+           # uh, this doesn't work, got it from http://codespeak.net/lxml/api.html#error-handling-on-exceptions
+           LOG('license_xslt', ERROR, e.error_log.filter_levels(lxml.etree.ErrorLevels.FATAL))
 
 	# get the license info XML
 	license_xml = lxml.etree.tostring(result.getroot())
@@ -524,6 +530,10 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	if jurisdiction != None:
 	    return jurisdiction
+
+	# special case for en_US -- should default to generic
+	if lang.lower() == "en_us":
+	    return None
 
 	lang_country = re.split('[-_]',lang)
 	if len(lang_country) == 2:
