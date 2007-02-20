@@ -389,6 +389,8 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	license_xml, license_name, license_uri, license_img, licenseonlyrdf = self.license_xslt(answers)
 	file('output.log', 'w').write(answers)
 
+        license_img_slim = license_img.replace('88x31','80x15')
+
 	license_rdf = self.html_comment(license_xml)
 
 	# generate the work RDF
@@ -408,6 +410,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		   'licenserdf': licenseonlyrdf,
 		   'issue_xml':license_xml,
 		   'imageurl':license_img,
+		   'imageurl-80x15':license_img_slim,
 		   'jurisdiction':jurisdiction,
 		   'rdf':license_rdf,
                    'code':code
