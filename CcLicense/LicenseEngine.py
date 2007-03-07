@@ -3,7 +3,7 @@ CcLicense
 LicenseEngine.py
 $Id$
 
-copyright 2004-2005, Nathan R. Yergler, Creative Commons
+copyright 2004-2007, Nathan R. Yergler, Creative Commons
 licensed to the public under the GNU GPL 2
 """
 
@@ -323,11 +323,12 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	# copyright holder
 	if req.has_key('field_copyrightholder'):
-	    result['copyright_holder'] = req['field_copyrightholder']
+	    result['copyright_holder'] = result['holder'] = \
+                req['field_copyrightholder']
 
 	# copyright year
 	if req.has_key('field_year'):
-	    result['copyright_year'] = req['field_year']
+	    result['copyright_year'] = result['year'] = req['field_year']
 
 	# description
 	if req.has_key('field_description'):
@@ -335,13 +336,28 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	# format
 	if req.has_key('field_format'):
-	    result['format'] = req['field_format']
+	    result['format'] = result['type'] = req['field_format']
 
 	# source url
 	if req.has_key('field_sourceurl'):
-	    result['source_work_url'] = req['field_sourceurl']
+	    result['source_work_url'] = result['source-url'] = \
+                req['field_sourceurl']
 
 	return result
+
+    security.declarePublic("work_info")
+    def work_info(self, request):
+        """Look for work metadata fields in the request and return a formatted
+        <work-info> block for the XSL transformation."""
+
+	work_meta = self.extractWorkMeta(request)
+        
+        work_info_str = "\n".join(
+            ["<%s>%s</%s>" % (k, work_meta[k], k) for k in work_meta
+             if work_meta[k] is not None]
+            )
+        
+        return "<work-info>%s</work-info>" % work_info_str
 
     security.declarePublic("issue")
     def issue(self, request=None):
@@ -358,7 +374,6 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	   # this is public domain
 	   answers="""<answers>
 	   <license-publicdomain />
-	</answers>
 	"""
 
 	# check for license_code
@@ -369,6 +384,9 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
                            (request['field_jurisdiction'])) or \
 			  ''
 	   answers = self.licenseCodeToAnswers(request['license_code'], jurisdiction, version = request.form.get('version', None), locale=locale)
+
+           # strip off the closing </answers> tag so we can add the work-info
+           answers = "\n".join(answers.split('\n')[:-1])
 
 	else:
 	   jurisdiction = ('field_jurisdiction' in request.keys() and request['field_jurisdiction']) or jurisdiction
@@ -382,8 +400,10 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		  <derivatives>%s</derivatives>
 		<version>%s</version>
 	   </license-standard>
-	</answers>
 	""" % (locale, jurisdiction, request['field_commercial'], request['field_derivatives'], ('version' in request.form and request['version'] or ''))
+
+        # add the work to the answers block
+        answers = "\n".join([answers, self.work_info(request), "</answers>"])
 
 	# generate the license RDF, etc
 	license_xml, license_name, license_uri, license_img, licenseonlyrdf = self.license_xslt(answers)
@@ -394,12 +414,12 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	license_rdf = self.html_comment(license_xml)
 
 	# generate the work RDF
-	work_meta = self.extractWorkMeta(request)
-	work_meta['license_url'] = license_uri
-	work_rdf = self.workRdf(**work_meta)
+	#work_meta = self.extractWorkMeta(request)
+	#work_meta['license_url'] = license_uri
+	#work_rdf = self.workRdf(**work_meta)
 
-	old_workurl = """<Work rdf:about=""><license rdf:resource="%s"/></Work>""" % license_uri
-	license_rdf = license_rdf.replace(old_workurl, work_rdf)
+	#old_workurl = """<Work rdf:about=""><license rdf:resource="%s"/></Work>""" % license_uri
+	#license_rdf = license_rdf.replace(old_workurl, work_rdf)
 
 	m = re.match('http:\/\/creativecommons.org\/licenses\/(.+?)\/.*', license_uri)
 	if m != None:
