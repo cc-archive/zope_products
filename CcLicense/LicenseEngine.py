@@ -530,11 +530,21 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
         try:
 	   result = transform.apply(answers)
         except lxml.etree.XSLTApplyError, e:
-           # uh, this doesn't work, got it from http://codespeak.net/lxml/api.html#error-handling-on-exceptions
+           # catch exceptions (requires lxml >= 1.1)
            LOG('license_xslt', ERROR, e.error_log.filter_levels(lxml.etree.ErrorLevels.FATAL))
 
 	# get the license info XML
 	license_xml = lxml.etree.tostring(result.getroot())
+
+        # attempt to tidy it
+        try:
+            import tidy
+            license_xml = tidy.parseString(license_xml,
+                                            output_xml=1, input_xml=1, 
+                                            tidy_mark=0, indent=1)
+        except:
+            # maybe ctypes wasn't available, or there was a decode error...
+            pass
 
 	# extract the license information
 	name = result.xpath('//license-name')[0].text
