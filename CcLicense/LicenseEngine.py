@@ -539,10 +539,10 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
         # attempt to tidy it
         try:
             import tidy
-            license_xml = tidy.parseString(license_xml,
+            license_xml = str(tidy.parseString(license_xml,
                                             output_xml=1, input_xml=1, 
-                                            tidy_mark=0, indent=1)
-        except:
+                                            tidy_mark=0, indent=0))
+        except Exception, e:
             # maybe ctypes wasn't available, or there was a decode error...
             pass
 
