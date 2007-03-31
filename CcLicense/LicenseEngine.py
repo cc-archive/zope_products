@@ -451,7 +451,11 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
         # attempt to tidy it
         try:
             import tidy
-            html = tidy.parseString(html, output_xml=1, tidy_mark=0, indent=1)
+            html = tidy.parseString(html, output_xml=1, tidy_mark=0, 
+                                    indent=0, wrap=0)
+            
+            # and now we annoyingly have to strip out the html/body that's added
+            html = html[html.find('<body>' + len('<body>'):html.find('</body>')]
         except:
             # maybe ctypes wasn't available, or there was a decode error...
             pass
