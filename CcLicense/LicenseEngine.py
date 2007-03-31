@@ -446,7 +446,17 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	START = '<html>'
 	END = '</html>'
 
-	return xml_doc[xml_doc.find(START) + len(START):xml_doc.find(END)]
+        html =  xml_doc[xml_doc.find(START) + len(START):xml_doc.find(END)]
+
+        # attempt to tidy it
+        try:
+            import tidy
+            html = tidy.parseString(html, output_xml=1, tidy_mark=0, indent=1)
+        except:
+            # maybe ctypes wasn't available, or there was a decode error...
+            pass
+
+	return html
 	
     security.declarePublic("getLicenseWorkRdf")
     def getLicenseWorkRdf(self, license_url, title=None, creator=None, 
@@ -535,16 +545,6 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 
 	# get the license info XML
 	license_xml = lxml.etree.tostring(result.getroot())
-
-        # attempt to tidy it
-        try:
-            import tidy
-            license_xml = str(tidy.parseString(license_xml,
-                                            output_xml=1, input_xml=1, 
-                                            tidy_mark=0, indent=0))
-        except Exception, e:
-            # maybe ctypes wasn't available, or there was a decode error...
-            pass
 
 	# extract the license information
 	name = result.xpath('//license-name')[0].text
