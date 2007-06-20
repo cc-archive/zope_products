@@ -11,6 +11,7 @@ import lxml.etree
 import os
 import re
 import StringIO
+import urlparse
 
 from Globals import InitializeClass
 from OFS.SimpleItem import SimpleItem
@@ -304,6 +305,7 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		  'format' : None,
 		  'work_url' : None,
 		  'source_work_url' : None,
+                  'source_work_domain' : None,
                   'attribution_name' : None,
                   'attribution_url' : None,
                   'more_permissions_url' : None,
@@ -345,6 +347,13 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	if req.has_key('field_sourceurl'):
 	    result['source_work_url'] = result['source-url'] = \
                 req['field_sourceurl']
+
+            # extract the domain from the URL
+            result['source_work_domain'] = urlparse.urlparse(
+                result['source_work_url'])[1]
+
+            if not(result['source_work_domain'].strip()):
+                result['source_work_domain'] = result['source_work_url']
 
         # attribution name
         if req.has_key('field_attribute_to_name'):
