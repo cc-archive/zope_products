@@ -304,6 +304,9 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 		  'format' : None,
 		  'work_url' : None,
 		  'source_work_url' : None,
+                  'attribution_name' : None,
+                  'attribution_url' : None,
+                  'more_permissions_url' : None,
 		  }
 
 	# look for keys that match the param names
@@ -342,6 +345,18 @@ class LicenseEngine(PortalContent, UniqueObject, SimpleItem):
 	if req.has_key('field_sourceurl'):
 	    result['source_work_url'] = result['source-url'] = \
                 req['field_sourceurl']
+
+        # attribution name
+        if req.has_key('field_attribute_to_name'):
+            result['attribution_name'] = req['field_attribute_to_name']
+
+        # attribution URL
+        if req.has_key('field_attribute_to_url'):
+            result['attribution_url'] = req['field_attribute_to_url']
+
+        # more permissions URL
+        if req.has_key('field_morepermissionsurl'):
+            result['more_permissions_url'] = req['field_morepermissionsurl']
 
 	return result
 
